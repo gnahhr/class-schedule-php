@@ -11,7 +11,7 @@ const Nav = ({navigate}) => {
         <img src={Logo} alt="logo" className="w-12 rounded-full my-1 ml-20"/>
         <ul className="flex items-center gap-2">
             <li onClick={() => navi('home')} className="cursor-pointer hover:underline">Home</li>
-            <li onClick={() => navi('home')} className="cursor-pointer hover:underline">Student</li>
+            <li onClick={() => navi('student')} className="cursor-pointer hover:underline">Student</li>
         </ul>
         <a onClick={() => navi('login')} className="no-underline my-auto mr-20 cursor-pointer hover:underline">Login</a>
     </nav>

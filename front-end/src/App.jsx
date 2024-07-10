@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
-import Steps from "./components/Steps";
 import Footer from "./components/Footer";
+import Student from "./components/Student";
 
 import Login from "./components/Login";
 
@@ -13,18 +13,10 @@ function App() {
   return (
     <div className='min-h-screen flex flex-col justify-between'>
       <Nav navigate={setActive}></Nav>
-      <div className="my-auto ">
-        {
-          active == 'home' && 
-          <>
-            <Hero></Hero>
-            <Steps></Steps>
-          </>
-        }
-        {
-          active == 'login' && 
-          <Login></Login>
-        }
+      <div className="my-auto">
+        { active == 'home' && <Hero></Hero> }
+        { active == 'student' && <Student></Student> }
+        { active == 'login' && <Login></Login> }
       </div>
       <Footer></Footer>
     </div>
