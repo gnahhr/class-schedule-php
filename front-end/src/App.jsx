@@ -11,9 +11,9 @@ function App() {
   const [ active, setActive ] = useState('home');
 
   return (
-    <div className='min-h-screen flex flex-col justify-between'>
+    <div className='min-h-screen flex flex-col'>
       <Nav navigate={setActive}></Nav>
-      <div className="my-auto">
+      <div className="h-[70vh] max-h-[70vh]">
         { active == 'home' && <Hero></Hero> }
         { active == 'student' && <Student></Student> }
         { active == 'login' && <Login></Login> }

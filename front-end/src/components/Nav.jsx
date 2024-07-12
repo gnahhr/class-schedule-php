@@ -7,7 +7,7 @@ const Nav = ({navigate}) => {
   }
 
   return (
-    <nav className="bg-blue-700 flex justify-between text-white">
+    <nav className="bg-blue-700 flex justify-between text-white h-[10vh] max-h-[10vh]">
         <img src={Logo} alt="logo" className="w-12 rounded-full my-1 ml-20"/>
         <ul className="flex items-center gap-2">
             <li onClick={() => navi('home')} className="cursor-pointer hover:underline">Home</li>
