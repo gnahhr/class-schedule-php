@@ -21,7 +21,7 @@ const courseItems =
 
 const Student = () => {
   return (
-    <div className="flex max-h-[80vh]">
+    <div className="flex h-[80vh] max-h-[80vh]">
         <div className="w-[15%] p-4 border-r-2">
             <Dropdown label={'Courses'} name={'courses'} items={courseItems}></Dropdown>
             <Dropdown label={'Sections'} name={'section'} items={courseItems}></Dropdown>
@@ -39,6 +39,8 @@ const Student = () => {
                 <span><small>L</small></span>
                 <span><small>E</small></span>
             </h1>
+            <Schedule></Schedule>
+            <Schedule></Schedule>
             <Schedule></Schedule>
         </div>
     </div>

@@ -10,6 +10,13 @@ import Login from "./components/Login";
 function App() {
   const [ active, setActive ] = useState('home');
 
+  const changePage = (page) =>
+  {
+    setActive(page);
+
+    // window.location.replace()
+  }
+
   return (
     <div className='min-h-screen flex flex-col'>
       <Nav navigate={setActive}></Nav>
