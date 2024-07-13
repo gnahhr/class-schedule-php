@@ -1,14 +1,14 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
-const Year = sequelize.define("year",
+const Year = sequelize.define("years",
   {
-    year: {
+    sy: {
       type: DataTypes.STRING,
       allowNull: true,
     },
     semester: {
-      type: DataTypes.STRING,
+      type: DataTypes.NUMBER,
       allowNull: true,
     },
   },{ timestamps: false },{ freezeTableName: true }
