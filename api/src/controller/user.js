@@ -1,6 +1,3 @@
-
-//model
-const USER = require('../models/user');
 //service
 const userService = require('../service/user')
 //constant
@@ -9,9 +6,9 @@ const SUCCESS_MESSAGE = require('../constants/success-message')
 
 const REGISTER = async (req, res) => {
     try {
-        const response = await userService.REGISTER(req.body)
+        await userService.REGISTER(req.body)
 
-        return res.json({...SUCCESS_MESSAGE.USER_SUCCESS_REGISTRATION, response})
+        return res.json({...SUCCESS_MESSAGE.USER_SUCCESS_REGISTRATION})
     } catch (error) {
         if(error) res.json(error)
         console.log(error)
@@ -23,7 +20,9 @@ const LOGIN = async (req, res) => {
 
         const response = await userService.LOGIN(req.body)
 
-        return res.json({...SUCCESS_MESSAGE.USER_LOGIN_SUCCESS, response})
+        if(response.roleId == 0 ) return res.json({...SUCCESS_MESSAGE.ADMIN_LOGIN_SUCCESS, response})
+        
+        if(response.roleId == 1 ) return res.json({...SUCCESS_MESSAGE.TEACHER_LOGIN_SUCCESS, response})
     } catch (error) {
         if(error) res.json(error)
         console.log(error)

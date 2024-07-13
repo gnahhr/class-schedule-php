@@ -10,6 +10,6 @@ const Department = sequelize.define("department", {
         type: DataTypes.STRING,
         allowNull: true,
     },
-})
+}, {timestamps:false})
 
 module.exports = Department;

@@ -20,16 +20,16 @@ const errorMessage = {
     message: 'Failed to create user.',
   },
 
-  USER_ERROR_DO_NOT_EXIST:{
+  DO_NOT_EXIST:{
     status: STATUS.FAILED,
     statusCode: STATUS_CODE.CONFLICT,
-    message: 'User does not exist.',
+    message: 'Does not Exist',
   },
 
-  USER_ERROR_TAKEN: {
+  ALREADY_EXIST: {
     status: STATUS.FAILED,
     statusCode: STATUS_CODE.CONFLICT,
-    message: 'Email or User Name already exist.',
+    message: 'Already exists.',
   },
 
   USER_ERROR_EMAIL_TAKEN: {

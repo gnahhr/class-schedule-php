@@ -1,25 +1,26 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const Department = require("./department")
+const User = require("./user");
 
-const Teacher = sequelize.define("teacher", {
-    
-    name: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-
-  
-  } ,{timestamps: false}, {freezeTableName: true});
-
-Teacher.hasOne(Department, {
-    onDelete: "CASCADE",
-    onUpdate:"CASCADE"
+const Teacher = sequelize.define("teachers", {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  department_id: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  userId: {  // This field will hold the foreign key referencing User
+    type: DataTypes.INTEGER,
+    allowNull: false,  // Assuming a teacher must always have a user
+    unique: true,
+  },
+}, {
+  timestamps: false,
+  freezeTableName: true,
 });
 
-Department.belongsTo(Teacher, {
-    onDelete: "CASCADE",
-    onUpdate:"CASCADE",
-})
+Teacher.belongsTo(User, { foreignKey: 'userId', onDelete: "CASCADE", onUpdate: "CASCADE" });
 
 module.exports = Teacher;

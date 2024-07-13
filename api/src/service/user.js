@@ -1,4 +1,6 @@
 const USER = require('../models/user');
+const TEACHER = require('../models/teacher');
+const ADMIN = require('../models/admin');
 const bcrypt = require('bcrypt')
 
 const saltRounds = 10
@@ -7,24 +9,46 @@ const ERROR_MESSAGE = require('../constants/error-message')
 
 const REGISTER = async (reqBody) => {
     try {
-        const {email, password, userName } = reqBody
+        const {password, userName, roleId, name, departmentId } = reqBody
 
-        const checkIfUserExist = await USER.findOne({ email: email})
+        const checkIfUserExist = await USER.findOne({where:{ userName: userName}})
 
         if(checkIfUserExist) throw (ERROR_MESSAGE.USER_ERROR_TAKEN)
 
         const hashPassword = bcrypt.hashSync(password,saltRounds)
 
         const userPayload = {
-            email:email.toLowerCase(),
             userName:userName.toLowerCase(),
             password:hashPassword,
-            roleId:1
+            roleId:roleId
         }
 
-        const createUser = await USER.create(userPayload)
+        const user = await USER.create(userPayload)
 
-        return createUser
+        if(roleId === 0){
+            const exist = await ADMIN.findOne({where:{ name: name}})
+
+            if(exist) throw (ERROR_MESSAGE.USER_ERROR_TAKEN)
+
+            await ADMIN.create({name: name, userId:user.id})
+        }
+
+        if(roleId === 1){
+
+            const exist = await TEACHER.findOne({where:{ name: name}})
+
+            if(exist) throw (ERROR_MESSAGE.USER_ERROR_TAKEN)
+
+            const payload = {
+                name: name,
+                departmentId: departmentId
+            }
+
+            await TEACHER.create({payload})
+        }
+
+        return null
+
     } catch (error) {
         throw error
     }
@@ -32,9 +56,9 @@ const REGISTER = async (reqBody) => {
 
 const LOGIN = async (reqBody) => {
     try {
-        const {email, password } = reqBody
+        const {userName, password } = reqBody
 
-        const findUser = await USER.findOne({email: email} )
+        const findUser = await USER.findOne({where:{userName: userName}} )
         
         if(!findUser) throw(ERROR_MESSAGE.USER_ERROR_DO_NOT_EXIST)
 

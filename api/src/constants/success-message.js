@@ -11,13 +11,25 @@ const successMessage = {
     message: 'User Registration Successful',
   },
 
-  USER_LOGIN_SUCCESS: {
+  CREATE_SUCCESS: {
     status: STATUS.OK,
-    statusCode:STATUS_CODE.SUCCESS,
-    message:'Login Successfully'
+    statusCode: STATUS_CODE.CREATED,
+    message: 'Created Successfully',
   },
 
-  USER_UPDATE_SUCCESS: {
+  ADMIN_LOGIN_SUCCESS: {
+    status: STATUS.OK,
+    statusCode:STATUS_CODE.SUCCESS,
+    message:'Admin Login Successfully'
+  },
+
+  TEACHER_LOGIN_SUCCESS: {
+    status: STATUS.OK,
+    statusCode:STATUS_CODE.SUCCESS,
+    message:'Teacher Login Successfully'
+  },
+
+  UPDATE_SUCCESS: {
     status: STATUS.OK,
     statusCode:STATUS_CODE.SUCCESS,
     message:'update success'
