@@ -7,7 +7,6 @@ const Year = sequelize.define("year",
       type: DataTypes.STRING,
       allowNull: true,
     },
-
     semester: {
       type: DataTypes.STRING,
       allowNull: true,

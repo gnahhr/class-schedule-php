@@ -12,9 +12,11 @@ const PORT = process.env.PORT || 5000;
 //routes
 const USER = require('./src/routes/user')
 const DEPARTMENT = require('./src/routes/department')
+const YEAR = require('./src/routes/year')
 
 app.use(USER);
-app.use(DEPARTMENT);
+app.use('/year', YEAR);
+app.use('/department', DEPARTMENT);
 
 app.listen(PORT, () => {
     console.log(`Server started on PORT: ${PORT}`);
