@@ -20,7 +20,7 @@ function App() {
   return (
     <div className='min-h-screen flex flex-col'>
       <Nav navigate={setActive}></Nav>
-      <div className="h-[70vh] max-h-[70vh]">
+      <div className="h-[72vh] max-h-[72vh]">
         { active == 'home' && <Hero></Hero> }
         { active == 'student' && <Student></Student> }
         { active == 'login' && <Login></Login> }
