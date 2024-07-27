@@ -11,9 +11,9 @@ const Teacher = sequelize.define("teachers", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  userId: {  // This field will hold the foreign key referencing User
+  userId: { 
     type: DataTypes.INTEGER,
-    allowNull: false,  // Assuming a teacher must always have a user
+    allowNull: false,
     unique: true,
   },
 }, {
