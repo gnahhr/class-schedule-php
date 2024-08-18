@@ -7,17 +7,19 @@ const Section = sequelize.define("section",
       type: DataTypes.STRING,
       allowNull: true,
     },
-
     course_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
-
     year_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
-  },{ timestamps: false },{ freezeTableName: true }
+  },
+  {
+    timestamps: false,
+    freezeTableName: true,
+  }
 );
 
 module.exports = Section;

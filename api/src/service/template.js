@@ -4,6 +4,9 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = []) => {
       try {
         const data = uniqueFields.reduce((acc, field) => {
           acc[field] = reqBody[field];
+
+          console.log(acc[field])
+          console.log(reqBody[field])
           return acc;
         }, {});
 

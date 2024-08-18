@@ -1,5 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
+const Section = require('./section');
+const Course = require("./course");
 
 const Year = sequelize.define("years",
   {
@@ -8,10 +10,15 @@ const Year = sequelize.define("years",
       allowNull: true,
     },
     semester: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
-  },{ timestamps: false },{ freezeTableName: true }
+  },
+  { 
+    timestamps: false,
+    freezeTableName: true 
+  }
 );
+
 
 module.exports = Year;

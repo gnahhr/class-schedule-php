@@ -1,9 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const COURSE = require("./course");
-const SCHEDULE = require("./schedule");
 
-const SUBJECT = sequelize.define("subjects", {
+const Subject = sequelize.define("subjects", {
   code: { 
     type: DataTypes.STRING,
     allowNull: true,
@@ -26,7 +24,4 @@ const SUBJECT = sequelize.define("subjects", {
   freezeTableName: true,
 });
 
-SUBJECT.belongsTo(COURSE, { foreignKey: 'course_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
-SUBJECT.belongsTo(SCHEDULE, { foreignKey: 'subject_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
-
-module.exports = SUBJECT;
+module.exports = Subject;

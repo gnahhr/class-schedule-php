@@ -7,16 +7,13 @@ const Admin = sequelize.define("admins", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  userId: {  // This field will hold the foreign key referencing User
+  userId: {  
     type: DataTypes.INTEGER,
-    allowNull: false,  // Assuming an admin must always have a user
+    allowNull: false,
     unique: true,
   },
 }, {
   timestamps: false,
   freezeTableName: true,
 });
-
-Admin.belongsTo(User, { foreignKey: 'userId', onDelete: "CASCADE", onUpdate: "CASCADE" });
-
 module.exports = Admin;

@@ -1,26 +1,43 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
 
-const user = new Schema({
-  email: {
-    type: 'String',
-    index: { unique: true },
-    required: true
+const Schedule = sequelize.define("schedule", {
+  time: {
+    type: DataTypes.TIME,
+    allowNull: true,
   },
-  userName: {
-    type: 'String',
-    required: true
+  days: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
   },
-  password: {
-    type: 'String',
-    required: true
+  course_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
   },
-  roleId:{
-    type:'Number',
-    required: true
-  }
-})
+  section_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  subject_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  teacher_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  department_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  room: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  year_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+});
 
-const model  = mongoose.model('user', user);
-
-module.exports = model;
+module.exports = Schedule;
