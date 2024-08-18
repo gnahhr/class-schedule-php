@@ -1,10 +1,17 @@
-import React from 'react'
+const SideNav = ({navigate}) => {
+  const links = ['Dashboard', 'Admin', 'Teacher', 'Schedule', 'Subject', 'Department', 'Course', 'Section', 'Year'];
 
-const SideNav = () => {
+  const navi = (menu) =>
+  {
+    console.log(item.toLower());
+  }
+
   return (
-    <div>
-        
-    </div>
+    <ul className="menu menu-horizontal w-100 bg-base-200 border-r md:h-[90vh] md:menu-vertical md:w-56 px-2 py-5">
+      {
+        links.map((item, index)=> <li key={index} onClick={() => navi(item)}><a>{item}</a></li>)
+      }
+    </ul>
   )
 }
 
