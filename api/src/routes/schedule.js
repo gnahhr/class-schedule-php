@@ -1,12 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const userController = require('../controller/user');
+const createRouter = require('./template');
+const controller = require('../controller/schedule');
 
-router.post('/user',userController.REGISTER);
-router.post('/user/login',userController.LOGIN);
-router.put('/user/:id',userController.UPDATE_USER);
-router.delete('/user/:id',userController.DELETE_USER);
-router.get('/user/:id',userController.GET_USER);
-router.get('/user',userController.GET_ALL_USER);
+const schedule = createRouter(controller);
 
-module.exports = router;
+module.exports = schedule;

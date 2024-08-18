@@ -4,6 +4,6 @@ const createService = require('./template');
 
 const fields = ['department_id', 'name', 'code'];
 
-const courseService = createService(YEAR, ERROR_MESSAGE, fields);
+const courseService = createService(COURSE, ERROR_MESSAGE, fields);
 
 module.exports = courseService;

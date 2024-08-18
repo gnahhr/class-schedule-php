@@ -66,7 +66,12 @@ const LOGIN = async (reqBody) => {
 
         if (!comparePassword) throw(ERROR_MESSAGE.USER_ERROR_INVALID_PASSWORD)
 
-        return findUser
+        const user = {
+          userName: findUser.userName,
+          roleId: findUser.roleId
+        }
+
+        return user
     } catch (error) {
         throw error
     }
