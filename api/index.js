@@ -17,7 +17,7 @@ const DEPARTMENT = require('./src/routes/department')
 const YEAR = require('./src/routes/year')
 const SUBJECT = require('./src/routes/subject')
 
-app.use('/user',USER);
+app.use(USER);
 app.use('/year', YEAR);
 app.use('/department', DEPARTMENT);
 app.use('/subject', SUBJECT);
