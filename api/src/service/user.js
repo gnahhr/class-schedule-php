@@ -59,8 +59,8 @@ const LOGIN = async (reqBody) => {
         const {userName, password } = reqBody
 
         const findUser = await USER.findOne({where:{userName: userName}} )
-        
-        if(!findUser) throw(ERROR_MESSAGE.USER_ERROR_DO_NOT_EXIST)
+
+        if(! findUser) throw (ERROR_MESSAGE.DO_NOT_EXIST)
 
         const comparePassword = await bcrypt.compare(password, findUser.password)
 
@@ -73,46 +73,51 @@ const LOGIN = async (reqBody) => {
 
         return user
     } catch (error) {
+        
         throw error
     }
 }
 
 
-const UPDATE_USER = async (reqBody, reqQuery) => {
+const UPDATE_USER = async (reqBody, reqParams) => {
     try {
-        const {email} = reqQuery
+        const { id } = reqParams;
 
-        const findUser = await USER.findOneAndUpdate({email: email} ,reqBody, {new:true})
+        const find = await USER.findByPk(id);
 
-        if(!findUser) throw(ERROR_MESSAGE.USER_ERROR_DO_NOT_EXIST)
+        if (! find) throw(ERROR_MESSAGE.DO_NOT_EXIST);
 
-        return findUser
+        await find.update(reqBody);
+
+        await find.save();
+
+        return null;
     } catch (error) {
         throw error
     }
 }
 
-const DELETE_USER = async (reqQuery) => {
+const DELETE_USER = async (reqParams) => {
     try {
-        const {email} = reqQuery
+        const { id } = reqParams;
 
-        const findUsers = await USER.findOne({email:email})
+        const data = await USER.findByPk(id);
 
-        if(!findUsers) throw(ERROR_MESSAGE.USER_ERROR_DO_NOT_EXIST)
+        if (!data) throw(ERROR_MESSAGE.DO_NOT_EXIST);
 
-        await USER.findOneAndDelete({email:email})
+        await data.destroy();
 
-        return true
+        return null;
     } catch (error) {
         throw error
     }
 }
 
-const GET_USER = async (reqQuery) => {
+const GET_USER = async (req) => {
     try {
-        const {email} = reqQuery
+        const { id } = req
 
-        const getUser = await USER.findOne({email:email}, {email:1, userName:1})
+        const getUser = await USER.findOne({ where:{id: id} })
 
         return getUser
     } catch (error) {
@@ -122,7 +127,7 @@ const GET_USER = async (reqQuery) => {
 
 const GET_ALL_USER = async () => {
     try {
-        const getUser = await USER.find()
+        const getUser = await USER.findAll()
 
         return getUser
     } catch (error) {

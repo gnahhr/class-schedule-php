@@ -17,7 +17,6 @@ const REGISTER = async (req, res) => {
 
 const LOGIN = async (req, res) => {
     try {
-
         const response = await userService.LOGIN(req.body)
 
         if(response.roleId == 0 ) return res.json({...SUCCESS_MESSAGE.ADMIN_LOGIN_SUCCESS, response})
@@ -31,9 +30,9 @@ const LOGIN = async (req, res) => {
 
 const UPDATE_USER = async (req, res) => {
     try {
-        const response = await userService.UPDATE_USER(req.body, req.query)
+        const response = await userService.UPDATE_USER(req.body, req.params)
 
-        return res.json({...SUCCESS_MESSAGE.USER_UPDATE_SUCCESS, response})
+        return res.json({...SUCCESS_MESSAGE.UPDATE_SUCCESS, response})
     } catch (error) {
         if(error) res.json(error)
         console.log(error)
@@ -42,7 +41,7 @@ const UPDATE_USER = async (req, res) => {
 
 const DELETE_USER = async (req, res) => {
     try {
-        await userService.DELETE_USER(req.body)
+        await userService.DELETE_USER(req.params)
 
         return res.json({...SUCCESS_MESSAGE.DELETE_SUCCESSFULLY})
     } catch (error) {
@@ -53,7 +52,7 @@ const DELETE_USER = async (req, res) => {
 
 const GET_USER = async (req, res) => {
     try {
-        const response = await userService.GET_USER(req.query)
+        const response = await userService.GET_USER(req.params)
 
         return res.json({...SUCCESS_MESSAGE.FETCH_SUCCESS, response})
     } catch (error) {

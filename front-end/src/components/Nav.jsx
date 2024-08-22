@@ -9,9 +9,13 @@ const Nav = ({navigate, isLoggedIn}) => {
   }
 
   useEffect(() => {
-    const { userName } = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user'));
 
-    setName(userName)
+    if (user)
+    {
+      setName(user.userName)
+    }
+
   }, [])
 
 

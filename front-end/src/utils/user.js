@@ -21,10 +21,6 @@ export default
     {
         const url = `${api}/${route}`
         
-        return await axios.post(url, payload).then(res => res.data.response)
-        .catch(res =>
-        {
-            console.error(res)
-        })
+        return await axios.post(url, payload)
     }
 }

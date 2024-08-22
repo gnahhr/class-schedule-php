@@ -48,13 +48,13 @@ function App() {
       {isLoggedIn ?
       <div className='block md:flex'>
         <SideNav navigate={setActive}></SideNav>
-        <div className="p-5 md:flex-grow">
+        <div className="p-5 md:flex-grow">  
           <Admin></Admin>
         </div>
       </div>
       :
       <>
-        <div className="h-[72vh] max-h-[72vh]">
+        <div className="sm:h-[72vh] sm:max-h-[72vh]">
           { active == 'home' && <Hero></Hero> }
           { active == 'student' && <Student></Student> }
           { active == 'login' && <Login fn={login} error={error}></Login> }
