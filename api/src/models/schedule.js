@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
-const Schedule = sequelize.define("schedule", {
+const Schedule = sequelize.define("schedules", {
   time: {
     type: DataTypes.TIME,
     allowNull: true,
@@ -38,6 +38,9 @@ const Schedule = sequelize.define("schedule", {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+}, {
+  timestamps: false,
+  freezeTableName: true,
 });
 
 module.exports = Schedule;

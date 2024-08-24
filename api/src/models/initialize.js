@@ -12,26 +12,30 @@ const Admin = require('./admin');
 const Teacher = require('./teacher');
 
 // Section to Course and Year--------------------------------------------------------------------
-Section.belongsTo(Course, { foreignKey: 'courseId', onDelete: "CASCADE", onUpdate: "CASCADE" });
-Course.hasMany(Section, { foreignKey: 'courseId', onDelete: "CASCADE", onUpdate: "CASCADE" });
+Section.belongsTo(Course, { foreignKey: 'course_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+Course.hasMany(Section, { foreignKey: 'course_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 
-Section.belongsTo(Year, { foreignKey: 'yearId', onDelete: "CASCADE", onUpdate: "CASCADE" });
-Year.hasMany(Section, { foreignKey: 'yearId', onDelete: "CASCADE", onUpdate: "CASCADE" });
+Section.belongsTo(Year, { foreignKey: 'year_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+Year.hasMany(Section, { foreignKey: 'year_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 //-----------------------------------------------------------------------------------------------
 
 // Admin to User---------------------------------------------------------------------------
-Admin.belongsTo(User, { foreignKey: 'userId', onDelete: "CASCADE", onUpdate: "CASCADE" });
-User.hasMany(Admin, { foreignKey: 'userId', onDelete: "CASCADE", onUpdate: "CASCADE" });
+Admin.belongsTo(User, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+User.hasMany(Admin, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 // ----------------------------------------------------------------------------------------
 
 // Teacher to User---------------------------------------------------------------------------
-Teacher.belongsTo(User, { foreignKey: 'userId', onDelete: "CASCADE", onUpdate: "CASCADE" });
-User.hasMany(Teacher, { foreignKey: 'userId', onDelete: "CASCADE", onUpdate: "CASCADE" });
+Teacher.belongsTo(User, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+User.hasMany(Teacher, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 //-------------------------------------------------------------------------------------------
 
 // Subject to Course and Schedule----------------------------------------------------------------
 Subject.belongsTo(Course, { foreignKey: 'course_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+Course.hasMany(Subject, { foreignKey: 'course_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 //-----------------------------------------------------------------------------------------------
+
+Course.belongsTo(Department, { foreignKey: 'department_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+Department.hasMany(Course, { foreignKey: 'department_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 
 // Schedule relationships---------------------------------------------------------------------------------
 Schedule.belongsTo(Course, { foreignKey: 'course_id', onDelete: "CASCADE", onUpdate: "CASCADE" });

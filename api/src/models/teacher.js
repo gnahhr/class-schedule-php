@@ -11,10 +11,12 @@ const Teacher = sequelize.define("teachers", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  userId: { 
+  user_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: true,
+    references: {
+      model: User,
+      key: 'id',
+    },
   },
 }, {
   timestamps: false,

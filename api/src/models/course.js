@@ -1,9 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const Department = require('./department');
-const Section = require('./section');
 
-const Course = sequelize.define("course", {
+const Course = sequelize.define("courses", {
   name: {
     type: DataTypes.STRING,
     allowNull: true,

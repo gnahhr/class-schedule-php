@@ -1,12 +1,9 @@
-const createService = (MODEL, ERROR_MESSAGE, uniqueFields = []) => {
+const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = []) => {
   return {
     CREATE: async (reqBody) => {
       try {
         const data = uniqueFields.reduce((acc, field) => {
           acc[field] = reqBody[field];
-
-          console.log(acc[field])
-          console.log(reqBody[field])
           return acc;
         }, {});
 
@@ -41,7 +38,9 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = []) => {
 
     GET: async () => {
       try {
-        const data = await MODEL.findAll();
+        const data = await MODEL.findAll({
+          include,
+        });
         return data;
       } catch (error) {
         throw error;
@@ -52,7 +51,9 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = []) => {
       try {
         const { id } = reqParams;
 
-        const data = await MODEL.findByPk(id);
+        const data = await MODEL.findByPk(id, {
+          include,
+        });
 
         if (!data) throw(ERROR_MESSAGE.DO_NOT_EXIST);
 

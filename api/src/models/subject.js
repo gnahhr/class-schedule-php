@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
+const Course = require("./course");
 
 const Subject = sequelize.define("subjects", {
   code: { 
@@ -12,12 +13,14 @@ const Subject = sequelize.define("subjects", {
   },
   description: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+  allowNull: true,
   },
-  course_id: { 
+  course_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: true,
+    references: {
+      model: Course,
+      key: 'id',
+    },
   },
 }, {
   timestamps: false,

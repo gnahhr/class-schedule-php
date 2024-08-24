@@ -5,6 +5,10 @@ const bcrypt = require('bcrypt')
 
 const saltRounds = 10
 
+const ROLE_TEACHER = 1
+
+const ROLE_ADMIN = 1
+
 const ERROR_MESSAGE = require('../constants/error-message')
 
 const REGISTER = async (reqBody) => {
@@ -25,7 +29,7 @@ const REGISTER = async (reqBody) => {
 
         const user = await USER.create(userPayload)
 
-        if(roleId === 0){
+        if(roleId === ROLE_ADMIN){
             const exist = await ADMIN.findOne({where:{ name: name}})
 
             if(exist) throw (ERROR_MESSAGE.USER_ERROR_TAKEN)
@@ -33,7 +37,7 @@ const REGISTER = async (reqBody) => {
             await ADMIN.create({name: name, userId:user.id})
         }
 
-        if(roleId === 1){
+        if(roleId === ROLE_TEACHER){
 
             const exist = await TEACHER.findOne({where:{ name: name}})
 
