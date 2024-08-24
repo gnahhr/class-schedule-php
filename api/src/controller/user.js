@@ -52,7 +52,7 @@ const DELETE_USER = async (req, res) => {
 
 const GET_USER = async (req, res) => {
     try {
-        const response = await userService.GET_USER(req.params)
+        const response = await userService.GET_USER(req.params, req.query)
 
         return res.json({...SUCCESS_MESSAGE.FETCH_SUCCESS, response})
     } catch (error) {
@@ -63,7 +63,7 @@ const GET_USER = async (req, res) => {
 
 const GET_ALL_USER = async (req, res) => {
     try {
-        const response = await userService.GET_ALL_USER()
+        const response = await userService.GET_ALL_USER(req.query)
 
         return res.json({...SUCCESS_MESSAGE.FETCH_SUCCESS, response})
     } catch (error) {

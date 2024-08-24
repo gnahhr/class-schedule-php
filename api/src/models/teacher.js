@@ -23,6 +23,4 @@ const Teacher = sequelize.define("teachers", {
   freezeTableName: true,
 });
 
-Teacher.belongsTo(User, { foreignKey: 'userId', onDelete: "CASCADE", onUpdate: "CASCADE" });
-
 module.exports = Teacher;

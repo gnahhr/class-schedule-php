@@ -9,7 +9,7 @@ const ROLE_TEACHER = 1
 
 const ROLE_ADMIN = 1
 
-const ERROR_MESSAGE = require('../constants/error-message')
+const ERROR_MESSAGE = require('../constants/error-message');
 
 const REGISTER = async (reqBody) => {
     try {
@@ -34,7 +34,7 @@ const REGISTER = async (reqBody) => {
 
             if(exist) throw (ERROR_MESSAGE.USER_ERROR_TAKEN)
 
-            await ADMIN.create({name: name, userId:user.id})
+            await ADMIN.create({name: name, user_id:user.id})
         }
 
         if(roleId === ROLE_TEACHER){
@@ -117,27 +117,55 @@ const DELETE_USER = async (reqParams) => {
     }
 }
 
-const GET_USER = async (req) => {
+const GET_USER = async (reqParams, reqQuery) => {
     try {
-        const { id } = req
+        const { id } = reqParams; 
+        const { isTeacher } = reqQuery; 
 
-        const getUser = await USER.findOne({ where:{id: id} })
+        let includeModels = []
+        let where = null
 
-        return getUser
+        if(isTeacher){
+            includeModels.push[{ model: TEACHER }]
+        }else{
+            includeModels.push[{ model: ADMIN }]
+        }
+
+        const getUser = await USER.findOne({
+            where: { id: id, roleId: isTeacher},
+            include: includeModels,
+        });
+
+        return getUser;
     } catch (error) {
-        throw error
+        throw error;
     }
-}
+};
 
-const GET_ALL_USER = async () => {
+const GET_ALL_USER = async (reqQuery) => {
     try {
-        const getUser = await USER.findAll()
+        const { isTeacher } = reqQuery;
 
-        return getUser
+        let includeModels = []
+        let where = null
+
+        if(isTeacher){
+            includeModels.push[{ model: TEACHER }]
+        }else{
+            includeModels.push[{ model: ADMIN }]
+        }
+
+        const getUsers = await USER.findAll({
+            where: {roleId : isTeacher}, 
+            include: includeModels,
+        });
+
+        return getUsers;
     } catch (error) {
-        throw error
+        throw error;
     }
-}
+};
+
 
 
 module.exports = {

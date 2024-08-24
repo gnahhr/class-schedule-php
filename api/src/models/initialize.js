@@ -21,12 +21,12 @@ Year.hasMany(Section, { foreignKey: 'year_id', onDelete: "CASCADE", onUpdate: "C
 
 // Admin to User---------------------------------------------------------------------------
 Admin.belongsTo(User, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
-User.hasMany(Admin, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+User.hasOne(Admin, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 // ----------------------------------------------------------------------------------------
 
 // Teacher to User---------------------------------------------------------------------------
 Teacher.belongsTo(User, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
-User.hasMany(Teacher, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+User.hasOne(Teacher, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 //-------------------------------------------------------------------------------------------
 
 // Subject to Course and Schedule----------------------------------------------------------------
@@ -43,6 +43,9 @@ Course.hasMany(Schedule, { foreignKey: 'course_id', onDelete: "CASCADE", onUpdat
 
 Schedule.belongsTo(Section, { foreignKey: 'section_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 Section.hasMany(Schedule, { foreignKey: 'section_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+
+Schedule.belongsTo(Subject, { foreignKey: 'subject_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+Subject.hasMany(Schedule, { foreignKey: 'subject_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 
 Schedule.belongsTo(Teacher, { foreignKey: 'teacher_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 Teacher.hasMany(Schedule, { foreignKey: 'teacher_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
