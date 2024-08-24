@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 
 const saltRounds = 10
 
-const ROLE_TEACHER = 1
+const ROLE_TEACHER = 0
 
 const ROLE_ADMIN = 1
 
@@ -120,19 +120,18 @@ const DELETE_USER = async (reqParams) => {
 const GET_USER = async (reqParams, reqQuery) => {
     try {
         const { id } = reqParams; 
-        const { isTeacher } = reqQuery; 
+        const { isAdmin } = reqQuery; 
 
         let includeModels = []
-        let where = null
 
-        if(isTeacher){
-            includeModels.push[{ model: TEACHER }]
-        }else{
+        if(isAdmin !== 0){
             includeModels.push[{ model: ADMIN }]
+        }else{
+            includeModels.push[{ model: TEACHER }]
         }
 
         const getUser = await USER.findOne({
-            where: { id: id, roleId: isTeacher},
+            where: { id: id, roleId: isAdmin},
             include: includeModels,
         });
 
@@ -144,19 +143,18 @@ const GET_USER = async (reqParams, reqQuery) => {
 
 const GET_ALL_USER = async (reqQuery) => {
     try {
-        const { isTeacher } = reqQuery;
+        const { isAdmin } = reqQuery;
 
         let includeModels = []
-        let where = null
 
-        if(isTeacher){
-            includeModels.push[{ model: TEACHER }]
-        }else{
+        if(isAdmin){
             includeModels.push[{ model: ADMIN }]
+        }else{
+            includeModels.push[{ model: TEACHER }]
         }
 
         const getUsers = await USER.findAll({
-            where: {roleId : isTeacher}, 
+            where: {roleId : isAdmin}, 
             include: includeModels,
         });
 
