@@ -13,6 +13,11 @@ const Year = sequelize.define("years",
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    toggle:{
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: true,
+    }
   },
   { 
     timestamps: false,

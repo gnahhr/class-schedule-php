@@ -57,8 +57,8 @@ Schedule.belongsTo(Year, { foreignKey: 'year_id', onDelete: "CASCADE", onUpdate:
 Year.hasMany(Schedule, { foreignKey: 'year_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 //---------------------------------------------------------------------------------------------------------
 
-function SyncModels() {  
-  sequelize.sync({ force: false })
+function SyncModels() {
+  sequelize.sync({ force: false})
 }
 
 module.exports = SyncModels;

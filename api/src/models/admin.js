@@ -7,10 +7,12 @@ const Admin = sequelize.define("admins", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  userId: {  
+  user_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: true,
+    references: {
+      model: User,
+      key: 'id',
+    },
   },
 }, {
   timestamps: false,

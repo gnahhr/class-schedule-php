@@ -122,16 +122,16 @@ const GET_USER = async (reqParams, reqQuery) => {
         const { id } = reqParams; 
         const { isAdmin } = reqQuery; 
 
-        let includeModels = []
+        let includeModels = [];
 
-        if(isAdmin !== 0){
-            includeModels.push[{ model: ADMIN }]
-        }else{
-            includeModels.push[{ model: TEACHER }]
+        if (parseInt(isAdmin) === ROLE_ADMIN) {
+            includeModels.push({ model: ADMIN });
+        } else {
+            includeModels.push({ model: TEACHER });
         }
 
         const getUser = await USER.findOne({
-            where: { id: id, roleId: isAdmin},
+            where: { id: id, roleId: isAdmin },
             include: includeModels,
         });
 
@@ -145,16 +145,16 @@ const GET_ALL_USER = async (reqQuery) => {
     try {
         const { isAdmin } = reqQuery;
 
-        let includeModels = []
+        let includeModels = [];
 
-        if(isAdmin){
-            includeModels.push[{ model: ADMIN }]
-        }else{
-            includeModels.push[{ model: TEACHER }]
+        if (parseInt(isAdmin) === ROLE_ADMIN) {
+            includeModels.push({ model: ADMIN });
+        } else {
+            includeModels.push({ model: TEACHER });
         }
 
         const getUsers = await USER.findAll({
-            where: {roleId : isAdmin}, 
+            where: { roleId: isAdmin }, 
             include: includeModels,
         });
 
@@ -163,6 +163,7 @@ const GET_ALL_USER = async (reqQuery) => {
         throw error;
     }
 };
+
 
 
 
