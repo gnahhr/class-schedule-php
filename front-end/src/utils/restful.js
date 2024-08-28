@@ -4,22 +4,41 @@ const api = import.meta.env.VITE_API
 
 export default
 {
-    async get(route)
+    async store(route, payload)
     {
-        const url = `${api}/${route}`
+        let url = `${api}/${route}`
         
-        return await axios.get(url).then(res => res.data.response)
+        return await axios.post(url, payload).then(res => res.data.response)
         .catch(res =>
         {
             console.error(res)
         })
     },
 
-    async find(route, id)
+    async get(route, queries = null)
     {
-        const url = `${api}/${route}/${id}`
+        let url = `${api}/${route}`
+
+        let queryString = new URLSearchParams(queries)
+
+        let parsedUrl = queries ? `${url}?${queryString}` : url;
         
-        return await axios.get(url)
+        return await axios.get(parsedUrl).then(res => res.data.response)
+        .catch(res =>
+        {
+            console.error(res)
+        })
+    },
+
+    async find(route, id, queries = null)
+    {
+        let url = `${api}/${route}/${id}`
+
+        let queryString = new URLSearchParams(queries)
+
+        let parsedUrl = queries ? `${url}?${queryString}` : url;
+        
+        return await axios.get(parsedUrl)
     },
 
     async update(route, id, payload)
@@ -37,7 +56,7 @@ export default
     {
         const url = `${api}/${route}/${id}`
         
-        return await axios.delete(url).then(res => res.data.response)
+        return await axios.delete(url).then(res => res.data.response    )
         .catch(res =>
         {
             console.error(res)

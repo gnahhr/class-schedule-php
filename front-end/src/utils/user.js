@@ -10,7 +10,7 @@ export default
     {
         const url = `${api}/${route}/login`
         
-        return await axios.post(url, payload).then(res => res.data.response)
+        return await axios.post(url, payload).then(res => res.data)
         .catch(res =>
         {
             console.error(res)
