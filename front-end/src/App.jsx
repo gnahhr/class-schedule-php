@@ -6,7 +6,9 @@ import Footer from "./components/Footer";
 import Student from "./components/Student";
 import Login from "./components/Login";
 import SideNav from "./components/SideNav";
+
 import Admin from "./components/Admin";
+import Department from "./components/Department";
 
 import User from "./utils/user"
 
@@ -21,14 +23,16 @@ function App() {
 
     if (response.statusCode != 200)
     {
-      setError(response.message);
+      setError(response.message)
+
+      return
     }
 
     setError(null);
 
     setIsLoggedIn(true);
 
-    localStorage.setItem('user', JSON.stringify(response));
+    localStorage.setItem('user', JSON.stringify(response.response));
   }
 
   useEffect( () => 
@@ -49,7 +53,8 @@ function App() {
       <div className='block md:flex'>
         <SideNav navigate={setActive}></SideNav>
         <div className="p-5 md:flex-grow">  
-          <Admin></Admin>
+          {/* <Admin></Admin> */}
+          <Department></Department>
         </div>
       </div>
       :
