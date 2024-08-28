@@ -15,12 +15,9 @@ const Section = sequelize.define("sections", {
       key: 'id',
     },
   },
-  year_id: {
+  year_level: {
     type: DataTypes.INTEGER,
-    references: {
-      model: Year,
-      key: 'id',
-    },
+    allowNull: true,
   }
   },{
     timestamps: false,

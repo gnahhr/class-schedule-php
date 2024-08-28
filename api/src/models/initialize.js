@@ -14,9 +14,6 @@ const Teacher = require('./teacher');
 // Section to Course and Year--------------------------------------------------------------------
 Section.belongsTo(Course, { foreignKey: 'course_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 Course.hasMany(Section, { foreignKey: 'course_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
-
-Section.belongsTo(Year, { foreignKey: 'year_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
-Year.hasMany(Section, { foreignKey: 'year_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 //-----------------------------------------------------------------------------------------------
 
 // Admin to User---------------------------------------------------------------------------

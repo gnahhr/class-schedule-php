@@ -4,13 +4,11 @@ const createService = require('./template');
 
 //relations
 const Course  = require('../models/course');
-const Year  = require('../models/year');
 
-const fields = ['name', 'course_id', 'year_id'];
+const fields = ['name', 'course_id', 'year_level'];
 
 const include = [
   { model: Course},
-  { model: Year },
 ];
 
 const service = createService(SECTION, ERROR_MESSAGE, fields, include);
