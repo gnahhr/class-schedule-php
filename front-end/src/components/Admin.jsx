@@ -54,7 +54,7 @@ const Admin = () => {
     {
         userName: username,
         password,
-        roleId: 0
+        roleId: 1
     }
 
     setIsLoading(true)
