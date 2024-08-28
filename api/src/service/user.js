@@ -1,5 +1,6 @@
 const USER = require('../models/user');
 const TEACHER = require('../models/teacher');
+const DEPARTMENT = require('../models/department');
 const ADMIN = require('../models/admin');
 const bcrypt = require('bcrypt')
 
@@ -17,7 +18,7 @@ const REGISTER = async (reqBody) => {
 
         const checkIfUserExist = await USER.findOne({where:{ userName: userName}})
 
-        if(checkIfUserExist) throw (ERROR_MESSAGE.USER_ERROR_TAKEN)
+        if(checkIfUserExist) throw (ERROR_MESSAGE.ALREADY_EXIST)
 
         const hashPassword = bcrypt.hashSync(password,saltRounds)
 
@@ -29,26 +30,27 @@ const REGISTER = async (reqBody) => {
 
         const user = await USER.create(userPayload)
 
-        if(roleId === ROLE_ADMIN){
+        if(parseInt(roleId) === ROLE_ADMIN){
             const exist = await ADMIN.findOne({where:{ name: name}})
 
-            if(exist) throw (ERROR_MESSAGE.USER_ERROR_TAKEN)
+            if(exist) throw (ERROR_MESSAGE.ALREADY_EXIST)
 
             await ADMIN.create({name: name, user_id:user.id})
         }
 
-        if(roleId === ROLE_TEACHER){
+        if(parseInt(roleId) === ROLE_TEACHER){
 
             const exist = await TEACHER.findOne({where:{ name: name}})
 
-            if(exist) throw (ERROR_MESSAGE.USER_ERROR_TAKEN)
+            if(exist) throw (ERROR_MESSAGE.ALREADY_EXIST)
 
             const payload = {
                 name: name,
-                departmentId: departmentId
+                departmentId: departmentId,
+                user_id:user.id
             }
 
-            await TEACHER.create({payload})
+           await TEACHER.create(payload)
         }
 
         return null
@@ -127,7 +129,10 @@ const GET_USER = async (reqParams, reqQuery) => {
         if (parseInt(isAdmin) === ROLE_ADMIN) {
             includeModels.push({ model: ADMIN });
         } else {
-            includeModels.push({ model: TEACHER });
+            includeModels.push({
+                model: TEACHER,
+                include: [{ model: DEPARTMENT }]
+            });
         }
 
         const getUser = await USER.findOne({
@@ -150,7 +155,10 @@ const GET_ALL_USER = async (reqQuery) => {
         if (parseInt(isAdmin) === ROLE_ADMIN) {
             includeModels.push({ model: ADMIN });
         } else {
-            includeModels.push({ model: TEACHER });
+            includeModels.push({
+                model: TEACHER,
+                include: [{ model: DEPARTMENT }]
+            });
         }
 
         const getUsers = await USER.findAll({
@@ -163,6 +171,7 @@ const GET_ALL_USER = async (reqQuery) => {
         throw error;
     }
 };
+
 
 
 

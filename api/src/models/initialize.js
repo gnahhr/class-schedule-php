@@ -24,6 +24,9 @@ User.hasOne(Admin, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASC
 // Teacher to User---------------------------------------------------------------------------
 Teacher.belongsTo(User, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 User.hasOne(Teacher, { foreignKey: 'user_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+
+Teacher.belongsTo(Department, { foreignKey: 'department_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+Department.hasMany(Teacher, { foreignKey: 'department_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 //-------------------------------------------------------------------------------------------
 
 // Subject to Course and Schedule----------------------------------------------------------------

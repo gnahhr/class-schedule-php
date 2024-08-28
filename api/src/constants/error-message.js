@@ -41,7 +41,7 @@ const errorMessage = {
   USER_ERROR_USERNAME_TAKEN: {
     status: STATUS.FAILED,
     statusCode: STATUS_CODE.CONFLICT,
-    message: 'Email already exist.',
+    message: 'User already exist.',
   },
 
   USER_ERROR_INVALID_PASSWORD:{

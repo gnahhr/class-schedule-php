@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const User = require("./user");
+const Department = require("./department");
 
 const Teacher = sequelize.define("teachers", {
   name: {
@@ -9,7 +10,10 @@ const Teacher = sequelize.define("teachers", {
   },
   department_id: {
     type: DataTypes.STRING,
-    allowNull: true,
+    references: {
+      model: Department,
+      key: 'id',
+    },
   },
   user_id: {
     type: DataTypes.INTEGER,
