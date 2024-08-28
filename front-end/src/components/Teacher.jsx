@@ -90,7 +90,7 @@ const Teacher = () => {
     const response = await Restful.find(route, id, {isAdmin: 0}).then((res) => res.data.response);
 
     setUsername(response.userName);
-    setName(response.name);
+    setName(response.teacher.name);
     setDepartment(response.department);
 
     setActive(response);
@@ -139,7 +139,7 @@ const Teacher = () => {
   {
     const response = await Restful.get('department');
 
-    console.log(response);
+    setDepartments(response);
   }
 
   const openModal = async (type, id = null) => 
@@ -204,9 +204,10 @@ const Teacher = () => {
     const searched = users.filter((item) => 
     {
         const lItem = item.userName.toLowerCase();
+        const lName = item.name.toLowerCase();
         const lSearch = search.toLowerCase();
 
-        return lItem.includes(lSearch)
+        return lItem.includes(lSearch) || lName.includes(lSearch)
     })
 
     setFiltered(searched);
@@ -261,8 +262,8 @@ const Teacher = () => {
                         <tr key={item.id}>
                             <td>{item.id}</td>
                             <td className="text-center">{item.userName}</td>
-                            <td className="text-center">{item.name}</td>
-                            <td className="text-center">{item.department.name}</td>
+                            <td className="text-center">{item.teacher.name}</td>
+                            <td className="text-center">{item.teacher.department.name}</td>
                             <td>
                                 <div className="dropdown dropdown-end">
                                     <div tabIndex={0} role="button" className="btn bg-blue-500 hover:bg-blue-700 border-none text-white m-1">Actions</div>
@@ -285,7 +286,7 @@ const Teacher = () => {
             <div className="modal-box bg-white">
                 <h3 className="font-bold text-lg">{modalTypes[modalType]} Teacher</h3>
                 {modalType === 2 ?
-                <p className="py-4">Delete the user [{active.userName}]?</p>
+                <p className="py-4">Delete the user [{name}]?</p>
                 :
 
                     <div className="py-4">
@@ -298,8 +299,21 @@ const Teacher = () => {
                                 <path
                                 d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                             </svg>
+                            <input type="text" className="grow" name="name" id="name"  placeholder="Username" value={name} onChange={(e) => setInput(e)} disabled={isLoading}/>
+                        </label>
+                        
+                        <label className="input flex items-center gap-2 my-1">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 16 16"
+                                fill="currentColor"
+                                className="h-4 w-4 opacity-70">
+                                <path
+                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+                            </svg>
                             <input type="text" className="grow" name="username" id="username"  placeholder="Username" value={username} onChange={(e) => setInput(e)} disabled={isLoading}/>
                         </label>
+
                         <label className="input flex items-center gap-2 my-1">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -313,6 +327,8 @@ const Teacher = () => {
                             </svg>
                             <input type="password" className="grow" name="password" id="password"  placeholder='Password' value={password} onChange={(e) => setInput(e)} disabled={isLoading}/>
                         </label>
+
+                        <Dropdown label={'Department'} name={'department'} items={departments} display={'name'} setValue={setDepartment} showLabel={false} defaultValue={department}></Dropdown>
                     </div>
                 }
                 <Alert show={showAlert} type={alertType} message={alertMsg}></Alert>
