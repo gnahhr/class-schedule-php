@@ -12,6 +12,8 @@ import Department from "./components/Department";
 import Teacher from "./components/Teacher";
 import Course from "./components/Course";
 import Subject from "./components/Subject";
+import Year from "./components/Year";
+import Section from "./components/Section";
 
 import User from "./utils/user"
 
@@ -60,7 +62,9 @@ function App() {
           {/* <Department></Department>  */}
           {/* <Teacher></Teacher> */}
           {/* <Course></Course> */}
-          <Subject></Subject>
+          {/* <Subject></Subject> */}
+          {/* <Year></Year> */}
+          <Section></Section>
         </div>
       </div>
       :

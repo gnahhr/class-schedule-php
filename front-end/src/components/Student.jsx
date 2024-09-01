@@ -5,30 +5,12 @@ import Schedule from './Schedule'
 
 import Restful from '../utils/restful'
 
-const courseItems = 
-[
-    {
-        value: 0,
-        text: 'Something'
-    },
-    {
-        value: 1,
-        text: 'Something 1'
-    },
-    {
-        value: 2,
-        text: 'Something 2'
-    },
-]
-
 const Student = () => {
   //Lists 
   const [ courses, setCourses ] = useState([]);
   const [ sections, setSections ] = useState([]);
   const [ years, setYears ] = useState([]);
   const [ schedules, setSchedules ] = useState([]);
-
-  // Filtered
 
   // Selected
   const [ course, setCourse ] = useState(null);
