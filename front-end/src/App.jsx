@@ -10,6 +10,8 @@ import SideNav from "./components/SideNav";
 import Admin from "./components/Admin";
 import Department from "./components/Department";
 import Teacher from "./components/Teacher";
+import Course from "./components/Course";
+import Subject from "./components/Subject";
 
 import User from "./utils/user"
 
@@ -55,8 +57,10 @@ function App() {
         <SideNav navigate={setActive}></SideNav>
         <div className="p-5 md:flex-grow">  
           {/* <Admin></Admin> */}
-          {/* <Department></Department> */}
-          <Teacher></Teacher>
+          {/* <Department></Department>  */}
+          {/* <Teacher></Teacher> */}
+          {/* <Course></Course> */}
+          <Subject></Subject>
         </div>
       </div>
       :

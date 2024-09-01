@@ -264,17 +264,16 @@ const Department = () => {
             <div className="modal-box bg-white">
                 <h3 className="font-bold text-lg">{modalTypes[modalType]} Department</h3>
                 {modalType === 2 ?
-                <p className="py-4">Delete the department [{active.name}]?</p>
+                  <p className="py-4">Delete the department [{active.name}]?</p>
                 :
-
-                    <div className="py-4">
-                        <label className="input flex items-center gap-2 my-1">
-                            <input type="text" className="grow" name="name" id="name"  placeholder="Name" value={name} onChange={(e) => setInput(e)} disabled={isLoading}/>
-                        </label>
-                        <label className="input flex items-center gap-2 my-1">
-                            <input type="text" className="grow" name="code" id="code"  placeholder="Code" value={code} onChange={(e) => setInput(e)} disabled={isLoading}/>
-                        </label>
-                    </div>
+                  <div className="py-4">
+                      <label className="input flex items-center gap-2 my-1">
+                          <input type="text" className="grow" name="name" id="name"  placeholder="Name" value={name} onChange={(e) => setInput(e)} disabled={isLoading} required/>
+                      </label>
+                      <label className="input flex items-center gap-2 my-1">
+                          <input type="text" className="grow" name="code" id="code"  placeholder="Code" value={code} onChange={(e) => setInput(e)} disabled={isLoading} required/>
+                      </label>
+                  </div>
                 }
                 <Alert show={showAlert} type={alertType} message={alertMsg}></Alert>
                 <div className="modal-action">
