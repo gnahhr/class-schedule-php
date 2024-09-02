@@ -10,6 +10,8 @@ const Subject = require('./subject');
 const Year = require('./year');
 const Admin = require('./admin');
 const Teacher = require('./teacher');
+const Time = require('./time');
+const Day = require('./day');
 
 // Section to Course and Year--------------------------------------------------------------------
 Section.belongsTo(Course, { foreignKey: 'course_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
