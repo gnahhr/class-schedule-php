@@ -6,7 +6,7 @@ const Schedule = sequelize.define("schedules", {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  days: {
+  day_id: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },

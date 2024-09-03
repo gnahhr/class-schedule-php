@@ -9,9 +9,10 @@ const Section = require('../models/section');
 const Subject = require('../models/subject');
 const Teacher = require('../models/teacher');
 const Year = require('../models/year');
+const Days = require('../models/day');
 
 
-const fields = ['days', 'time', 'room', 'year_level', 'course_id', 'department_id', 'section_id', 'subject_id', 'teacher_id', 'year_id'];
+const fields = ['day_id', 'time', 'room', 'year_level', 'course_id', 'department_id', 'section_id', 'subject_id', 'teacher_id', 'year_id'];
 
 const include = [
   { model: Course},
@@ -20,6 +21,7 @@ const include = [
   { model: Subject},
   { model: Teacher},
   { model: Year},
+  { model: Days},
 ];
 
 const service = createService(SCHEDULE, ERROR_MESSAGE, fields, include);

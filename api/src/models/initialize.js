@@ -57,6 +57,9 @@ Department.hasMany(Schedule, { foreignKey: 'department_id', onDelete: "CASCADE",
 
 Schedule.belongsTo(Year, { foreignKey: 'year_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 Year.hasMany(Schedule, { foreignKey: 'year_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+
+Schedule.belongsTo(Day, { foreignKey: 'day_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
+Day.hasMany(Schedule, { foreignKey: 'day_id', onDelete: "CASCADE", onUpdate: "CASCADE" });
 //---------------------------------------------------------------------------------------------------------
 
 function SyncModels() {
