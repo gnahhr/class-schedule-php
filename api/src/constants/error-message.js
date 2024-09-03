@@ -61,6 +61,12 @@ const errorMessage = {
     statusCode: STATUS_CODE.FAILED,
     message: 'User already exists in the budget.',
   },
+
+  SCHEDULE_ALREADY_AVAILABLE_FOR_THIS_YEAR:{
+    status: STATUS.FAILED,
+    statusCode: STATUS_CODE.FAILED,
+    message: 'Schedule is already toggle for this year. Untoggle existing year to toggle new Year',
+  },
   
 
   //debt error

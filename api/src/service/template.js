@@ -1,5 +1,6 @@
 const TYPE_SCHEDULE = 1
 const Year = require('../models/year')
+const scheduleQuery = require('../utils/scheduleQuery')
 
 const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], type = null) => {
   return {
@@ -26,6 +27,12 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
       try {
         const { id } = reqParams;
 
+        if(type === 'year'){
+          const toggled = await MODEL.find({where:{toggle: 1}});
+
+          if(toggled) throw(ERROR_MESSAGE.SCHEDULE_ALREADY_AVAILABLE_FOR_THIS_YEAR)
+        }
+
         const find = await MODEL.findByPk(id);
 
         if (!find) throw(ERROR_MESSAGE.DO_NOT_EXIST);
@@ -41,29 +48,18 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
 
     GET: async (reqQuery = null) => {
       try {
-        if (parseInt(type) === TYPE_SCHEDULE && reqQuery) {
-          let {course, section, year, toggle} = reqQuery;
+        if (type === 'Schedule' && reqQuery) {
+          const data = scheduleQuery(Year, MODEL, reqQuery)
 
-          let models = include
-
-          if(parseInt(toggle) === 1){
-            models = [{
-              model: Year,
-              where: {
-                toggle: toggle,
-              },
-            },
-            ...include,
-          ]
-         }
-         
+          return data
+        }
+        if (type === 'year') {
           const data = await MODEL.findAll({
             where: {
-              course_id: course,
-              section_id: section,
-              year_id: year,
-            },
-            include: models
+              toggle: 1,
+            }},
+            {
+            include,
           });
 
           return data
@@ -72,6 +68,7 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
         const data = await MODEL.findAll({
           include,
         });
+
         return data;
       } catch (error) {
         throw error;

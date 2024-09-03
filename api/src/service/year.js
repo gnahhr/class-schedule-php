@@ -4,6 +4,10 @@ const createService = require('./template');
 
 const fields = ['sy', 'semester', 'toggle'];
 
-const yearService = createService(YEAR, ERROR_MESSAGE, fields);
+const type = 'year'
+
+const include = null;
+
+const yearService = createService(YEAR, ERROR_MESSAGE, fields, include ,type);
 
 module.exports = yearService;

@@ -24,7 +24,7 @@ const include = [
   { model: Days},
 ];
 
-const type = 1
+const type = 'Schedule'
 
 const service = createService(SCHEDULE, ERROR_MESSAGE, fields, include, type );
 
