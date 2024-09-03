@@ -3,6 +3,9 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+
+    await queryInterface.bulkDelete('times', null, {});
+
     await queryInterface.bulkInsert('times', [
       {
         name: '1:00 PM - 2:00 PM',

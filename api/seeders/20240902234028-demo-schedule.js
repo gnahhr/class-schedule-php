@@ -3,6 +3,8 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    await queryInterface.bulkDelete('schedules', null, {});
+
     await queryInterface.bulkInsert('schedules', [
       //monday wed frid---------------------------------------
       {
