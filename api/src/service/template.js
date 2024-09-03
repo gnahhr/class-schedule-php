@@ -1,4 +1,5 @@
 const TYPE_SCHEDULE = 1
+const Year = require('../models/year')
 
 const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], type = null) => {
   return {
@@ -40,15 +41,29 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
 
     GET: async (reqQuery = null) => {
       try {
+        if (parseInt(type) === TYPE_SCHEDULE && reqQuery) {
+          let {course, section, year, toggle} = reqQuery;
 
-        if(parseInt(type) === TYPE_SCHEDULE && reqQuery){
+          let models = include
+
+          if(parseInt(toggle) === 1){
+            models = [{
+              model: Year,
+              where: {
+                toggle: toggle,
+              },
+            },
+            ...include,
+          ]
+         }
+         
           const data = await MODEL.findAll({
             where: {
-              course_id: reqQuery.course,
-              section_id: reqQuery.section,
-              year_id: reqQuery.year,
+              course_id: course,
+              section_id: section,
+              year_id: year,
             },
-            include,
+            include: models
           });
 
           return data
