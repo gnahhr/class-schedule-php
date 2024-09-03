@@ -5,4 +5,9 @@ const createService = require('./template');
 const fields = ['sy', 'semester'];
 
 const yearService = createService(YEAR, ERROR_MESSAGE, fields);
+
+const toggleOption = async() =>{
+
+}
+
 module.exports = yearService;

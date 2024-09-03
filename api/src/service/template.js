@@ -44,9 +44,9 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
         if(parseInt(type) === TYPE_SCHEDULE && reqQuery){
           const data = await MODEL.findAll({
             where: {
-              course_id: reqQuery.course_id,
-              section_id: reqQuery.section_id,
-              year_id: reqQuery.year_id,
+              course_id: reqQuery.course,
+              section_id: reqQuery.section,
+              year_id: reqQuery.year,
             },
             include,
           });
