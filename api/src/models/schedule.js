@@ -3,7 +3,7 @@ const sequelize = require("../config/database");
 
 const Schedule = sequelize.define("schedules", {
   time: {
-    type: DataTypes.TIME,
+    type: DataTypes.INTEGER,
     allowNull: true,
   },
   days: {

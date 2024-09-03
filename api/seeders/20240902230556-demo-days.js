@@ -5,6 +5,12 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.bulkInsert('days', [
       {
+        name: 'mwf',
+      },
+      {
+        name: 'tth',
+      },
+      {
         name: 'Monday',
       },
       {
