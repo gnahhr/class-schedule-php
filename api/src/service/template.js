@@ -28,9 +28,11 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
         const { id } = reqParams;
 
         if(type === 'year'){
-          const toggled = await MODEL.findOne({where:{toggle: 1}});
-
-          if(toggled) throw(ERROR_MESSAGE.SCHEDULE_ALREADY_AVAILABLE_FOR_THIS_YEAR)
+          if(parseInt(reqBody.toggle) === 1){
+            const toggled = await MODEL.findOne({where:{toggle: 1}});
+  
+            if(toggled) throw(ERROR_MESSAGE.SCHEDULE_ALREADY_AVAILABLE_FOR_THIS_YEAR)
+          }
         }
 
         const find = await MODEL.findByPk(id);
@@ -77,7 +79,7 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
 
     FIND: async (reqParams) => {
       try {
-        
+
         if (type === 'Schedule' && reqQuery) {
           const data = scheduleQuery(Year, MODEL, reqQuery)
 
