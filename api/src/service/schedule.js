@@ -24,6 +24,8 @@ const include = [
   { model: Days},
 ];
 
-const service = createService(SCHEDULE, ERROR_MESSAGE, fields, include);
+const type = 1
+
+const service = createService(SCHEDULE, ERROR_MESSAGE, fields, include, type );
 
 module.exports = service;

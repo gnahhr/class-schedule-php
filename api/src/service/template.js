@@ -1,4 +1,6 @@
-const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = []) => {
+const TYPE_SCHEDULE = 1
+
+const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], type = null) => {
   return {
     CREATE: async (reqBody) => {
       try {
@@ -36,8 +38,22 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = []) =>
       }
     },
 
-    GET: async () => {
+    GET: async (reqQuery = null) => {
       try {
+
+        if(parseInt(type) === TYPE_SCHEDULE && reqQuery){
+          const data = await MODEL.findAll({
+            where: {
+              course_id: reqQuery.course_id,
+              section_id: reqQuery.section_id,
+              year_id: reqQuery.year_id,
+            },
+            include,
+          });
+
+          return data
+        }
+
         const data = await MODEL.findAll({
           include,
         });
@@ -49,6 +65,20 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = []) =>
 
     FIND: async (reqParams) => {
       try {
+
+        if(parseInt(type) === TYPE_SCHEDULE){
+          const data = await MODEL.find({
+            where: {
+              course_id: reqParams.course_id,
+              section_id: reqParams.section_id,
+              year_id: reqParams.year_id,
+            },
+            include,
+          });
+
+          return data
+        }
+
         const { id } = reqParams;
 
         const data = await MODEL.findByPk(id, {

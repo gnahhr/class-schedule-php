@@ -20,7 +20,7 @@ const createController = (service, SUCCESS_MESSAGE, ERROR_MESSAGE) => {
 
     GET: async (req, res) => {
       try {
-        const response = await service.GET();
+        const response = await service.GET(req.query);
         return res.json({ ...SUCCESS_MESSAGE.FETCH_SUCCESS, response });
       } catch (error) {
         res.status(400).json({ error: error.message || ERROR_MESSAGE.GENERIC_ERROR });
