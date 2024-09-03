@@ -14,11 +14,15 @@ import Course from "./components/Course";
 import Subject from "./components/Subject";
 import Year from "./components/Year";
 import Section from "./components/Section";
+import Schedules from "./components/Schedules";
 
 import User from "./utils/user"
 
+const sideNavLinks = ['Dashboard', 'Admin', 'Teacher', 'Schedule', 'Subject', 'Department', 'Course', 'Section', 'Year'];
+
 function App() {
   const [ active, setActive ] = useState('home');
+  const [ sideActive, setSideActive ] = useState('dashboard');
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ error, setError ] = useState(null);
 
@@ -51,20 +55,26 @@ function App() {
 
   }, [])
 
+  const pages =
+  {
+    'admin': <Admin></Admin>,
+    'department': <Department></Department>,
+    'teacher': <Teacher></Teacher>,
+    'course': <Course></Course>,
+    'subject': <Subject></Subject>,
+    'year': <Year></Year>,
+    'section': <Section></Section>,
+    'schedule': <Schedules></Schedules>
+  }
+
   return (
     <div className='min-h-screen flex flex-col'>
       <Nav navigate={setActive} isLoggedIn={isLoggedIn}></Nav>
       {isLoggedIn ?
       <div className='block md:flex'>
-        <SideNav navigate={setActive}></SideNav>
+        <SideNav links={sideNavLinks} navigate={setSideActive}></SideNav>
         <div className="p-5 md:flex-grow">  
-          {/* <Admin></Admin> */}
-          {/* <Department></Department>  */}
-          {/* <Teacher></Teacher> */}
-          {/* <Course></Course> */}
-          {/* <Subject></Subject> */}
-          {/* <Year></Year> */}
-          <Section></Section>
+          { pages[sideActive] }
         </div>
       </div>
       :

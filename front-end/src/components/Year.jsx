@@ -270,7 +270,7 @@ const Year = () => {
                           <input type="text" className="grow" name="sy" id="sy"  placeholder="School Year" value={sy} onChange={(e) => setInput(e)} disabled={isLoading} required/>
                       </label>
                       <label className="input flex items-center gap-2 my-1">
-                          <input type="number" className="grow" name="semester" id="semester"  placeholder="Code" value={semester} onChange={(e) => setInput(e)} disabled={isLoading} required/>
+                          <input type="number" className="grow" name="semester" id="semester"  placeholder="Semester" value={semester} onChange={(e) => setInput(e)} disabled={isLoading} required/>
                       </label>
                   </div>
                 }

@@ -1,9 +1,8 @@
-const SideNav = ({navigate}) => {
-  const links = ['Dashboard', 'Admin', 'Teacher', 'Schedule', 'Subject', 'Department', 'Course', 'Section', 'Year'];
+const SideNav = ({links, navigate}) => {
 
   const navi = (menu) =>
   {
-    console.log(item.toLower());
+    navigate(menu.toLowerCase());
   }
 
   return (

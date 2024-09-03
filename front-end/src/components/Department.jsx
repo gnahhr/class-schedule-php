@@ -241,7 +241,11 @@ const Department = () => {
                             <td>{item.id}</td>
                             <td className="text-center">{item.name}</td>
                             <td className="text-center">{item.code}</td>
-                            <td className="text-center">{item.courses}</td>
+                            <td className="text-center">
+                              <ul>
+                                {item.courses.map(item => <li key={item.id}>{item.name}</li>)}
+                              </ul>
+                            </td>
                             <td>
                                 <div className="dropdown dropdown-end">
                                     <div tabIndex={0} role="button" className="btn bg-blue-500 hover:bg-blue-700 border-none text-white m-1">Actions</div>
