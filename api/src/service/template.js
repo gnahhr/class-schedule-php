@@ -28,7 +28,7 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
         const { id } = reqParams;
 
         if(type === 'year'){
-          const toggled = await MODEL.find({where:{toggle: 1}});
+          const toggled = await MODEL.findOne({where:{toggle: 1}});
 
           if(toggled) throw(ERROR_MESSAGE.SCHEDULE_ALREADY_AVAILABLE_FOR_THIS_YEAR)
         }
@@ -77,16 +77,9 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
 
     FIND: async (reqParams) => {
       try {
-
-        if(parseInt(type) === TYPE_SCHEDULE){
-          const data = await MODEL.find({
-            where: {
-              course_id: reqParams.course_id,
-              section_id: reqParams.section_id,
-              year_id: reqParams.year_id,
-            },
-            include,
-          });
+        
+        if (type === 'Schedule' && reqQuery) {
+          const data = scheduleQuery(Year, MODEL, reqQuery)
 
           return data
         }
