@@ -50,28 +50,33 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
 
     GET: async (reqQuery = null) => {
       try {
+        
         if (type === 'Schedule' && reqQuery) {
-          const data = scheduleQuery(Year, MODEL, reqQuery)
+          const data = scheduleQuery(Year, MODEL, reqQuery, include)
 
           return data
         }
+
         if (type === 'year') {
+
+          let {toggle} = reqQuery
+
           const data = await MODEL.findAll({
             where: {
-              toggle: 1,
+              toggle: toggle,
             }},
-            {
             include,
+            {
           });
 
           return data
         }
+          const data = await MODEL.findAll({
+            include,
+          });
+  
+          return data;
 
-        const data = await MODEL.findAll({
-          include,
-        });
-
-        return data;
       } catch (error) {
         throw error;
       }
