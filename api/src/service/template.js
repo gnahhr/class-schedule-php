@@ -86,7 +86,7 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
       try {
 
         if (type === 'Schedule' && reqQuery) {
-          const data = scheduleQuery(Year, MODEL, reqQuery)
+          const data = scheduleQuery(Year, MODEL, reqQuery, include)
 
           return data
         }
