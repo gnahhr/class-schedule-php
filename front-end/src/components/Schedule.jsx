@@ -2,10 +2,28 @@ import React from 'react'
 
 const Schedule = ({times, items, modalOpen}) => {
 
-  const exists = (item) =>
+  const exists = ({start, end}) =>
+    {
+      if (! times ) return true;
+
+      let includes = false;
+
+      times[days].forEach((time) =>
+      {
+        if (time.timeStart == start && time.timeEnd == end)
+        {
+          includes = true;
+        }
+      })
+
+      return includes
+    }
+
+  const formatTime = (time) =>
   {
-    if (! times) return false;
-    return times.filter(time => time.id === item.time).length > 0;
+    const times = time.split(':');
+
+    return times[0] >= 12 ? `${(times[0] % 12) == 0 ? 12 : times[0] % 12}:${times[1]} PM` : `${times[0]}:${times[1]} AM`
   }
 
   return (
@@ -28,7 +46,7 @@ const Schedule = ({times, items, modalOpen}) => {
                 <tr key={item.id}>
                   {index == 0 && <td className="border-2" rowSpan="9">{item.day.name}</td>}
                   {index == 0 && item.day_id > 2 && <td className="border-2">{item.day.name}</td>}
-                  <td className="border-2">{item.time}</td>
+                  <td className="border-2">{formatTime(item.start_time)} - {formatTime(item.end_time)}</td>
                   <td className="border-2">{item.subject.code}</td>
                   <td className="border-2">{item.subject.description}</td>
                   <td className="border-2">{item.teacher.name}</td>
@@ -38,7 +56,7 @@ const Schedule = ({times, items, modalOpen}) => {
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn bg-blue-500 hover:bg-blue-700 border-none text-white m-1">Actions</div>
                         <ul tabIndex={0} className="dropdown-content menu bg-white rounded-box z-[1] w-52 p-2 shadow">
-                            { exists(item.time) ?
+                            { exists({start: item.start_time, end: item.end_time}) ?
                               <>
                                 <li onClick={() => openModal(1, item.id)}><a>Update</a></li>
                                 <li onClick={() => openModal(2, item.id)}><a>Delete</a></li>

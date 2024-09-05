@@ -60,55 +60,79 @@ const times =
   1:
   [
     {
-      id: "1:00 PM - 2:00 PM",
+      id: 1,
       name: "1:00 PM - 2:00 PM",
+      timeStart: '13:00',
+      timeEnd: '14:00',
     },
     {
-      id: "2:00 PM - 3:00 PM",
+      id: 2,
       name: "2:00 PM - 3:00 PM",
+      timeStart: '14:00',
+      timeEnd: '15:00',
     },
     {
-      id: "3:00 PM - 4:00 PM",
+      id: 3,
       name: "3:00 PM - 4:00 PM",
+      timeStart: '15:00',
+      timeEnd: '16:00',
     },
     {
-      id: "4:00 PM - 5:00 PM",
+      id: 4,
       name: "4:00 PM - 5:00 PM",
+      timeStart: '16:00',
+      timeEnd: '17:00',
     },
     {
-      id: "5:00 PM - 6:00 PM",
+      id: 5,
       name: "5:00 PM - 6:00 PM",
+      timeStart: '17:00',
+      timeEnd: '18:00'
     },
     {
-      id: "6:00 PM - 7:00 PM",
+      id: 6,
       name: "6:00 PM - 7:00 PM",
+      timeStart: '18:00',
+      timeEnd: '19:00'
     },
     {
-      id: "7:00 PM - 8:00 PM",
+      id: 7,
       name: "7:00 PM - 8:00 PM",
+      timeStart: '19:00',
+      timeEnd: '20:00'
     },
   ],
   2:
   [
     {
-      id:"12:30 PM - 2:00 PM",
+      id: 8,
       name: "12:30 PM - 2:00 PM",
+      timeStart: '12:30',
+      timeEnd: '14:00'
     },
     {
-      id:"2:00 PM - 3:30 PM",
+      id: 9,
       name: "2:00 PM - 3:30 PM",
+      timeStart: '14:00',
+      timeEnd: '15:30'
     },
     {
-      id:"3:30 PM - 5:00 PM",
+      id: 10,
       name: "3:30 PM - 5:00 PM",
+      timeStart: '15:30',
+      timeEnd: '17:00'
     },
     {
-      id:"5:00 PM - 6:30 PM",
+      id: 11,
       name: "5:00 PM - 6:30 PM",
+      timeStart: '17:00',
+      timeEnd: '18:30'
     },
     {
-      id:"6:30 PM - 8:00 PM",
+      id: 12,
       name: "6:30 PM - 8:00 PM",
+      timeStart: '18:30',
+      timeEnd: '20:00'
     },
   ]
 }
@@ -182,7 +206,8 @@ const Schedules = () => {
 
     const payload =
     {
-        time: timeStart,
+        start_time: timeStart,
+        end_time: timeEnd,
         day_id: days,
         room,
         year_id: year,
@@ -217,11 +242,63 @@ const Schedules = () => {
   {
     const response = await Restful.find(route, id).then((res) => res.data.data);
 
-    setDays(response.day_id);
+    const days = response.day_id;
+    
+    const start = response.start_time;
+
+    const end = response.end_time;
+
+    setDays(days);
+
+    if (days > 2)
+    {
+      setTimeStart(start);
+      setTimeEnd(end);
+    }
+    else
+    {
+      parseTime({days, start, end});
+    }
+
     setTeacher(response.teacher_id);
     setRoom(response.room);
 
     setSchedule(response);
+  }
+
+  const parseTime = ({id, days, start, end}) =>
+  {
+    let includes = false;
+
+    if (id)
+    {
+      const day = id < 8 ? 1 : 2;
+
+      setTimeStart(times[day][id].timeStart)
+      setTimeEnd(times[day][id].timeEnd)
+
+      return;
+    }
+
+    times[days].forEach((time) =>
+    {
+      if (time.timeStart == start && time.timeEnd == end)
+      {
+        setTime(time.id);
+        setTimeStart(time.timeStart);
+        setTimeEnd(time.timeEnd);
+
+        includes = true;
+
+        return
+      }
+    })
+
+    if (! includes)
+    {
+      setTimeStart(start);
+      setTimeEnd(end);
+    }
   }
 
   const fetchCompleteSchedule = async () =>
@@ -244,7 +321,8 @@ const Schedules = () => {
 
     const payload =
     {
-        time,
+        start_time: timeStart,
+        end_time: timeEnd,
         day_id: days,
         room,
         year_id: year,
@@ -289,13 +367,13 @@ const Schedules = () => {
     setSchedule(parsed);
   }
 
-  const openModal = async (type, payload = { time: null, days: null }, id = null) => 
+  const openModal = async (type, payload = { timeStart: null, timeEnd: null, days: null }, id = null) => 
   {
     if(id) await fetch(id);
 
-    if(payload.time) setTime(payload.time)
-    
     if(payload.days) setDays(payload.days)
+
+    parseTime({days: payload.days, start: payload.timeStart, end: payload.timeEnd})
 
     setModalType(type);
 
@@ -399,7 +477,7 @@ const Schedules = () => {
   }
 
   const getYears = async () => {
-    const response = await Restful.get('year', {toggle: 0});
+    const response = await Restful.get('year');
 
     setYears(response)
   }

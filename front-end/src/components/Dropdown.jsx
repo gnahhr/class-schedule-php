@@ -4,7 +4,14 @@ const Dropdown = ({label, name, items, display, setValue, filterLabel, filterVal
 
   const fn = (e) =>
   {
-    setValue(e.target.value)
+    if (name == 'time')
+    {
+      setValue({id: e.target.value});
+
+      return;
+    }
+
+    setValue(e.target.value);
   }
 
   const filter = (filterLabel, filterValue) =>
