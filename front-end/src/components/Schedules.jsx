@@ -119,6 +119,8 @@ const Schedules = () => {
 
   // Modal Inputs
   const [ time, setTime ] = useState('');
+  const [ timeStart, setTimeStart ] = useState('');
+  const [ timeEnd, setTimeEnd ] = useState('');
   const [ days, setDays ] = useState('');
   const [ subject, setSubject ] = useState('');
   const [ teacher, setTeacher ] = useState('');
@@ -140,6 +142,7 @@ const Schedules = () => {
   const [ departments, setDepartments ] = useState([]);
   const [ years, setYears] = useState([]);
   const [ teachers, setTeachers] = useState([]);
+  const [ subjects, setSubjects] = useState([]);
 
   // Alert States  
   const [ showAlert, setShowAlert ] = useState(false);
@@ -179,7 +182,7 @@ const Schedules = () => {
 
     const payload =
     {
-        time: new Date(),
+        time: timeStart,
         day_id: days,
         room,
         year_id: year,
@@ -227,7 +230,8 @@ const Schedules = () => {
     {
       course,
       section,
-      year
+      year,
+      toggle: 0
     }
     const response = await Restful.get(route, payload).then((res) => res);
 
@@ -285,9 +289,13 @@ const Schedules = () => {
     setSchedule(parsed);
   }
 
-  const openModal = async (type, id = null) => 
+  const openModal = async (type, payload = { time: null, days: null }, id = null) => 
   {
     if(id) await fetch(id);
+
+    if(payload.time) setTime(payload.time)
+    
+    if(payload.days) setDays(payload.days)
 
     setModalType(type);
 
@@ -391,7 +399,7 @@ const Schedules = () => {
   }
 
   const getYears = async () => {
-    const response = await Restful.get('year');
+    const response = await Restful.get('year', {toggle: 0});
 
     setYears(response)
   }
@@ -434,7 +442,7 @@ const Schedules = () => {
                 <Dropdown label={'Department'} name={'department'} items={departments} display={'name'} setValue={setDepartment} showLabel={true} defaultValue={department}></Dropdown>
                 <Dropdown label={'Course'} name={'course'} items={courses} display={'name'} setValue={setCourse} showLabel={true} defaultValue={course} filterLabel={'department_id'} filterValue={department} disabled={! department}></Dropdown>
                 <Dropdown label={'Section'} name={'section'} items={sections} display={'name'} setValue={setSection} showLabel={true} defaultValue={section} filterLabel={'course_id'} filterValue={course} disabled={! course}></Dropdown>
-                <button className="btn btn-primary" disabled={! course || ! section} onClick={() => fetchCompleteSchedule()}>View</button>
+                <button className="btn btn-primary" disabled={! course || ! section || ! year} onClick={() => fetchCompleteSchedule()}>View</button>
               </div>
             </div>
 
@@ -453,7 +461,7 @@ const Schedules = () => {
         </div>
 
         <dialog id="schedule_modal" className="modal">
-            <div className="modal-box bg-white">
+            <div className="modal-box">
                 <h3 className="font-bold text-lg">{modalTypes[modalType]} Schedule</h3>
                 {modalType === 2 ?
                   <p className="py-4">Delete the schedule [{active.name}]?</p>
@@ -463,7 +471,20 @@ const Schedules = () => {
                       {days < 3 ?
                         <Dropdown label={'Time'} name={'time'} items={times[days]} display={'name'} setValue={setTime} showLabel={true} defaultValue={time} disabled={! days}></Dropdown>
                         :
-                        <h2>Custom</h2>
+                        <div className="flex gap-2 my-2">
+                          <div className="w-[100%]">
+                            <label className="my-2">
+                              Time Start
+                            </label>
+                            <input type="time" className="input input-bordered w-[100%]" name="room" id="room"  placeholder="Time Start" value={room} onChange={(e) => setInput(e)} disabled={isLoading} required/>
+                          </div>
+                          <div className="w-[100%]">
+                            <label className="my-2">
+                              Time End
+                            </label>
+                            <input type="time" className="input input-bordered w-[100%]" name="room" id="room"  placeholder="Time End" value={room} onChange={(e) => setInput(e)} disabled={isLoading} required/>
+                          </div>
+                        </div>
                       }
                       <Dropdown label={'Year'} name={'year'} items={years} display={'sy'} setValue={setYear} showLabel={true} defaultValue={year}></Dropdown>
                       <Dropdown label={'Department'} name={'department'} items={departments} display={'name'} setValue={setDepartment} showLabel={true} defaultValue={department}></Dropdown>

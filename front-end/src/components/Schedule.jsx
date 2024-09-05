@@ -1,6 +1,13 @@
 import React from 'react'
 
-const Schedule = ({times, items, add, edit, del}) => {
+const Schedule = ({times, items, modalOpen}) => {
+
+  const exists = (item) =>
+  {
+    if (! times) return false;
+    return times.filter(time => time.id === item.time).length > 0;
+  }
+
   return (
     <div className="mx-5 mt-2">
         <table className="border-2 w-[100%] text-center rounded">
@@ -28,7 +35,19 @@ const Schedule = ({times, items, add, edit, del}) => {
                   <td className="border-2">{item.room}</td>
                   <td className="border-2">{item.subject.units}</td>
                   <td className="border-2">
-                    
+                    <div className="dropdown dropdown-end">
+                        <div tabIndex={0} role="button" className="btn bg-blue-500 hover:bg-blue-700 border-none text-white m-1">Actions</div>
+                        <ul tabIndex={0} className="dropdown-content menu bg-white rounded-box z-[1] w-52 p-2 shadow">
+                            { exists(item.time) ?
+                              <>
+                                <li onClick={() => openModal(1, item.id)}><a>Update</a></li>
+                                <li onClick={() => openModal(2, item.id)}><a>Delete</a></li>
+                              </>
+                              :
+                              <li onClick={() => openModal(0)}><a>Add</a></li>
+                            }
+                        </ul>
+                    </div>
                   </td>
                 </tr>
               )}
