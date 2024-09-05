@@ -12,7 +12,7 @@ const Year = require('../models/year');
 const Days = require('../models/day');
 
 
-const fields = ['day_id', 'time', 'room', 'year_level', 'course_id', 'department_id', 'section_id', 'subject_id', 'teacher_id', 'year_id'];
+const fields = ['day_id', 'start_time', 'end_time', 'room', 'year_level', 'course_id', 'department_id', 'section_id', 'subject_id', 'teacher_id', 'year_id'];
 
 const include = [
   { model: Course},

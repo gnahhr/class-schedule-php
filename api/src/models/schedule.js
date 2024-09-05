@@ -2,7 +2,11 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
 const Schedule = sequelize.define("schedules", {
-  time: {
+  start_time: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },  
+  end_time: {
     type: DataTypes.STRING,
     allowNull: true,
   },
