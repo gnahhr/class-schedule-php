@@ -8,8 +8,9 @@ module.exports = {
     await queryInterface.bulkInsert('schedules', [
       //monday wed frid---------------------------------------
       {
-        time: 1,
-        days: 1,
+        start_time: '13:00',
+        end_time:'14:00',
+        day_id: 1,
         room: 'asda6',
         course_id: 3,
         section_id: 1,
@@ -19,8 +20,9 @@ module.exports = {
         year_id: 1,
       },
       {
-        time: 2,
-        days: 1,
+        start_time: '14:00',
+        end_time: '15:00',
+        day_id: 1,
         room: 'asda5',
         course_id: 3,
         section_id: 1,
@@ -30,8 +32,9 @@ module.exports = {
         year_id: 1,
       },
       {
-        time: 3,
-        days: 1,
+        start_time: '15:00',
+        end_time:'16:00',
+        day_id: 1,
         room: 'asda4',
         course_id: 3,
         section_id: 1,
@@ -41,8 +44,9 @@ module.exports = {
         year_id: 1,
       },
       {
-        time: 4,
-        days: 1,
+        start_time: '16:00',
+        end_time:'17:00',
+        day_id: 1,
         room: 'asda3',
         course_id: 3,
         section_id: 1,
@@ -52,8 +56,9 @@ module.exports = {
         year_id: 1,
       },
       {
-        time: 5,
-        days: 1,
+        start_time: '17:00',
+        end_time:'18:00',
+        day_id: 1,
         room: 'asda2',
         course_id: 3,
         section_id: 1,
@@ -63,8 +68,9 @@ module.exports = {
         year_id: 1,
       },
       {
-        time: 6,
-        days: 1,
+        start_time: '18:00',
+        end_time:'19:00',
+        day_id: 1,
         room: 'asda1',
         course_id: 3,
         section_id: 1,
@@ -77,8 +83,9 @@ module.exports = {
 
       //tuesday - thursday ---------------------------
       {
-        time: 8,
-        days: 2,
+        start_time: '12:30',
+        end_time:'14:00',
+        day_id: 2,
         room: 'asda6',
         course_id: 3,
         section_id: 1,
@@ -88,8 +95,9 @@ module.exports = {
         year_id: 1,
       },
       {
-        time: 9,
-        days: 2,
+        start_time: '14:00',
+        end_time:'15:30',
+        day_id: 2,
         room: 'asda5',
         course_id: 3,
         section_id: 1,
@@ -99,8 +107,9 @@ module.exports = {
         year_id: 1,
       },
       {
-        time: 10,
-        days: 2,
+        start_time: '15:30',
+        end_time:'17:00',
+        day_id: 2,
         room: 'asda4',
         course_id: 3,
         section_id: 1,
@@ -110,8 +119,9 @@ module.exports = {
         year_id: 1,
       },
       {
-        time: 11,
-        days: 2,
+        start_time: '17:00',
+        end_time:'18:30',
+        day_id: 2,
         room: 'asda3',
         course_id: 3,
         section_id: 1,
@@ -121,8 +131,9 @@ module.exports = {
         year_id: 1,
       },
       {
-        time: 12,
-        days: 2,
+        start_time: '18:30',
+        end_time:'20:00',
+        day_id: 2,
         room: 'asda2',
         course_id: 3,
         section_id: 1,
