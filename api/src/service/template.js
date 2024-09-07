@@ -1,6 +1,7 @@
 const TYPE_SCHEDULE = 1
 const Year = require('../models/year')
 const scheduleQuery = require('../utils/scheduleQuery')
+const parseSchedule = require('../utils/parseSchedule')
 
 const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], type = null) => {
   return {
@@ -52,9 +53,11 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
       try {
         
         if (type === 'Schedule' && reqQuery) {
-          const data = scheduleQuery(Year, MODEL, reqQuery, include)
+          const data = await scheduleQuery(Year, MODEL, reqQuery, include)
 
-          return data
+          const parse = parseSchedule(data)
+
+          return parse
         }
 
         if (type === 'year') {
