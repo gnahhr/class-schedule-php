@@ -5,6 +5,7 @@ import Alert from './Alert'
 import Restful from '../utils/restful'
 import Dropdown from './Dropdown'
 import Schedule from './Schedule'
+import TIMES from '../constants/time'
 
 const route = 'schedule'
 
@@ -12,7 +13,8 @@ const modalTypes =
 {
     0: 'Add',
     1: 'Update',
-    2: 'Delete'
+    2: 'Delete',
+    3: 'Add Custom'
 }
 
 const daysList =
@@ -55,87 +57,7 @@ const daysList =
   },
 ]
 
-const times =
-{
-  1:
-  [
-    {
-      id: 1,
-      name: "1:00 PM - 2:00 PM",
-      timeStart: '13:00',
-      timeEnd: '14:00',
-    },
-    {
-      id: 2,
-      name: "2:00 PM - 3:00 PM",
-      timeStart: '14:00',
-      timeEnd: '15:00',
-    },
-    {
-      id: 3,
-      name: "3:00 PM - 4:00 PM",
-      timeStart: '15:00',
-      timeEnd: '16:00',
-    },
-    {
-      id: 4,
-      name: "4:00 PM - 5:00 PM",
-      timeStart: '16:00',
-      timeEnd: '17:00',
-    },
-    {
-      id: 5,
-      name: "5:00 PM - 6:00 PM",
-      timeStart: '17:00',
-      timeEnd: '18:00'
-    },
-    {
-      id: 6,
-      name: "6:00 PM - 7:00 PM",
-      timeStart: '18:00',
-      timeEnd: '19:00'
-    },
-    {
-      id: 7,
-      name: "7:00 PM - 8:00 PM",
-      timeStart: '19:00',
-      timeEnd: '20:00'
-    },
-  ],
-  2:
-  [
-    {
-      id: 8,
-      name: "12:30 PM - 2:00 PM",
-      timeStart: '12:30',
-      timeEnd: '14:00'
-    },
-    {
-      id: 9,
-      name: "2:00 PM - 3:30 PM",
-      timeStart: '14:00',
-      timeEnd: '15:30'
-    },
-    {
-      id: 10,
-      name: "3:30 PM - 5:00 PM",
-      timeStart: '15:30',
-      timeEnd: '17:00'
-    },
-    {
-      id: 11,
-      name: "5:00 PM - 6:30 PM",
-      timeStart: '17:00',
-      timeEnd: '18:30'
-    },
-    {
-      id: 12,
-      name: "6:30 PM - 8:00 PM",
-      timeStart: '18:30',
-      timeEnd: '20:00'
-    },
-  ]
-}
+const times = TIMES
 
 const Schedules = () => {
   const [ modalType, setModalType ] = useState(0)
@@ -189,6 +111,8 @@ const Schedules = () => {
     'department': setDepartment,
     'search': setSearch,
     'year': setYear,
+    'timeStart': setTimeStart,
+    'timeEnd': setTimeEnd,
   }
 
   const setInput = (e) => 
@@ -215,7 +139,7 @@ const Schedules = () => {
         teacher_id: teacher,
         course_id: course,
         section_id: section,
-        department_id: department
+        department_id: department,
     };
 
     setIsLoading(true)
@@ -263,7 +187,10 @@ const Schedules = () => {
     setTeacher(response.teacher_id);
     setRoom(response.room);
 
+    console.log(response);
+
     setSchedule(response);
+    setActive(response);
   }
 
   const parseTime = ({id, days, start, end}) =>
@@ -312,7 +239,7 @@ const Schedules = () => {
     }
     const response = await Restful.get(route, payload).then((res) => res);
 
-    parseSchedules(response);
+    setSchedule(response);
   }
 
   const update = async () =>
@@ -330,7 +257,7 @@ const Schedules = () => {
         teacher_id: teacher,
         course_id: course,
         section_id: section,
-        department_id: department
+        department_id: department,
     };
 
     setIsLoading(true)
@@ -353,27 +280,9 @@ const Schedules = () => {
     });
   }
 
-  const parseSchedules = (schedules) =>
-  {
-    let parsed = { 0: [], 1: [], 2: [] };
-
-    schedules.forEach(item =>
+  const openModal = async (type, id = null) => 
     {
-      let day = item.day_id;
-
-      day > 2 ? parsed[2].push(item) : parsed[day-1].push(item);
-    })
-
-    setSchedule(parsed);
-  }
-
-  const openModal = async (type, payload = { timeStart: null, timeEnd: null, days: null }, id = null) => 
-  {
     if(id) await fetch(id);
-
-    if(payload.days) setDays(payload.days)
-
-    parseTime({days: payload.days, start: payload.timeStart, end: payload.timeEnd})
 
     setModalType(type);
 
@@ -411,15 +320,6 @@ const Schedules = () => {
 
   const reset = () =>
   {
-    setTime('');
-    setDays('');
-    setSubject('');
-    setTeacher('');
-    setRoom('');
-    setCourse('');
-    setSection('');
-    setDepartment('');
-    setSearch('');
     setAlertMsg('');
     setActive({});
     setShowAlert(false);
@@ -456,12 +356,19 @@ const Schedules = () => {
     getDepartments()
     getYears()
     getTeachers()
+    getSubjects()
   }, [])
 
   const getCourses = async () => {
     const response = await Restful.get('course');
 
     setCourses(response)
+  }
+
+  const getSubjects = async () => {
+    const response = await Restful.get('subject');
+
+    setSubjects(response)
   }
 
   const getSections = async () => {
@@ -528,12 +435,14 @@ const Schedules = () => {
               {schedule.length == 0 ? 
                 <h2 className="text-center">No schedules found.</h2>
                 :
-                [0, 1, 2].map(item => {
-                  if (schedule[item].length > 0)
+                ['mwf', 'tth', 'custom'].map(item => 
+                {
+                  if (Object.keys(schedule[item]).length > 0)
                   {
-                    return <Schedule key={item} items={schedule[item]}></Schedule>
+                    return <Schedule key={item} items={schedule[item]} openModal={openModal}></Schedule>
                   }
-                })
+                }
+                )
               }
             </div>
         </div>
@@ -554,20 +463,17 @@ const Schedules = () => {
                             <label className="my-2">
                               Time Start
                             </label>
-                            <input type="time" className="input input-bordered w-[100%]" name="room" id="room"  placeholder="Time Start" value={room} onChange={(e) => setInput(e)} disabled={isLoading} required/>
+                            <input type="time" className="input input-bordered w-[100%]" name="timeStart" id="timeStart"  placeholder="Time Start" value={timeStart} onChange={(e) => setInput(e)} disabled={isLoading} required/>
                           </div>
                           <div className="w-[100%]">
                             <label className="my-2">
                               Time End
                             </label>
-                            <input type="time" className="input input-bordered w-[100%]" name="room" id="room"  placeholder="Time End" value={room} onChange={(e) => setInput(e)} disabled={isLoading} required/>
+                            <input type="time" className="input input-bordered w-[100%]" name="timeEnd" id="timeEnd"  placeholder="Time End" value={timeEnd} onChange={(e) => setInput(e)} disabled={isLoading} required/>
                           </div>
                         </div>
                       }
-                      <Dropdown label={'Year'} name={'year'} items={years} display={'sy'} setValue={setYear} showLabel={true} defaultValue={year}></Dropdown>
-                      <Dropdown label={'Department'} name={'department'} items={departments} display={'name'} setValue={setDepartment} showLabel={true} defaultValue={department}></Dropdown>
-                      <Dropdown label={'Course'} name={'course'} items={courses} display={'name'} setValue={setCourse} showLabel={true} defaultValue={course} filterLabel={'department_id'} filterValue={department} disabled={! department}></Dropdown>
-                      <Dropdown label={'Section'} name={'section'} items={sections} display={'name'} setValue={setSection} showLabel={true} defaultValue={section} filterLabel={'course_id'} filterValue={course} disabled={! course}></Dropdown>
+                      <Dropdown label={'Subject'} name={'subject'} items={subjects} display={'code'} setValue={setSubject} showLabel={true} defaultValue={subject} filterLabel={'course_id'} filterValue={course} disabled={! course}></Dropdown>
                       <Dropdown label={'Teacher'} name={'teacher'} items={teachers} display={'name'} setValue={setTeacher} showLabel={true} defaultValue={teacher} filterLabel={'department_id'} filterValue={department} disabled={! department}></Dropdown>
                       <label className="my-2">
                         Room

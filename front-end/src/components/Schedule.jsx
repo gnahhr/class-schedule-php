@@ -1,29 +1,38 @@
-import React from 'react'
+import { useState } from 'react'
 
-const Schedule = ({times, items, modalOpen}) => {
+const Schedule = ({items, openModal}) => {
+  const [ keys, setKeys ] = useState(Object.keys(items));
 
-  const exists = ({start, end}) =>
-    {
-      if (! times ) return true;
+  const parseKey = (key) =>
+  {
+    const keySplit = key.split('-');
 
-      let includes = false;
-
-      times[days].forEach((time) =>
-      {
-        if (time.timeStart == start && time.timeEnd == end)
-        {
-          includes = true;
-        }
-      })
-
-      return includes
-    }
+    return formatTime(keySplit[0]) + ' - ' + formatTime(keySplit[1]);
+  }
 
   const formatTime = (time) =>
   {
+    if (! time) return;
+
     const times = time.split(':');
 
     return times[0] >= 12 ? `${(times[0] % 12) == 0 ? 12 : times[0] % 12}:${times[1]} PM` : `${times[0]}:${times[1]} AM`
+  }
+
+  const getUnits = () =>
+  {
+    let total = 0;
+
+    keys.forEach(key => 
+      {
+        if (items[key].subject)
+        {
+          total = total + parseInt(items[key].subject.units)
+        }
+      }
+    )
+
+    return total
   }
 
   return (
@@ -42,24 +51,36 @@ const Schedule = ({times, items, modalOpen}) => {
               </tr>
             </thead>
             <tbody>
-              {items.map((item, index) =>
-                <tr key={item.id}>
-                  {index == 0 && <td className="border-2" rowSpan="9">{item.day.name}</td>}
-                  {index == 0 && item.day_id > 2 && <td className="border-2">{item.day.name}</td>}
-                  <td className="border-2">{formatTime(item.start_time)} - {formatTime(item.end_time)}</td>
-                  <td className="border-2">{item.subject.code}</td>
-                  <td className="border-2">{item.subject.description}</td>
-                  <td className="border-2">{item.teacher.name}</td>
-                  <td className="border-2">{item.room}</td>
-                  <td className="border-2">{item.subject.units}</td>
+              {keys.map((key, index) =>
+                <tr key={index}>
+                  {index == 0 && items[key].day_id < 3 && <td className="border-2" rowSpan="9">{items[key].day.name}</td>}
+                  {items[key].day_id > 2 && <td className="border-2">{items[key].day.name}</td>}
+                  <td className="border-2">{parseKey(key)}</td>
+                  {items[key].id ?
+                    <>
+                      <td className="border-2">{items[key].subject.code}</td>
+                      <td className="border-2">{items[key].subject.description}</td>
+                      <td className="border-2">{items[key].teacher.name}</td>
+                      <td className="border-2">{items[key].room}</td>
+                      <td className="border-2">{items[key].subject.units}</td>
+                    </>
+                    :
+                    <>
+                      <td className="border-2"></td>
+                      <td className="border-2"></td>
+                      <td className="border-2"></td>
+                      <td className="border-2"></td>
+                      <td className="border-2"></td>
+                    </>
+                  }
                   <td className="border-2">
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn bg-blue-500 hover:bg-blue-700 border-none text-white m-1">Actions</div>
                         <ul tabIndex={0} className="dropdown-content menu bg-white rounded-box z-[1] w-52 p-2 shadow">
-                            { exists({start: item.start_time, end: item.end_time}) ?
+                            { items[key].id ?
                               <>
-                                <li onClick={() => openModal(1, item.id)}><a>Update</a></li>
-                                <li onClick={() => openModal(2, item.id)}><a>Delete</a></li>
+                                <li onClick={() => openModal(1, items[key].id)}><a>Update</a></li>
+                                <li onClick={() => openModal(2, items[key].id)}><a>Delete</a></li>
                               </>
                               :
                               <li onClick={() => openModal(0)}><a>Add</a></li>
@@ -70,7 +91,7 @@ const Schedule = ({times, items, modalOpen}) => {
                 </tr>
               )}
               <tr>
-                <td colSpan="6">Units: {items.reduce((sum, val) => sum + parseInt(val.subject.units), 0)}</td>
+                <td colSpan="6">Units: {getUnits()}</td>
               </tr>
             </tbody>
         </table>

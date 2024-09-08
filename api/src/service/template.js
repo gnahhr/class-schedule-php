@@ -78,6 +78,24 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
           }
         }
 
+        if (type === 'subject') {
+
+          let { course } = reqQuery
+
+          if (course) 
+          {
+            const data = await MODEL.findAll({
+              where: {
+                course_id: course,
+              }},
+              include,
+              {
+            });
+
+            return data
+          }
+        }
+
         const data = await MODEL.findAll({
           include,
         });
