@@ -1,13 +1,15 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 
 const Dropdown = ({label, name, items, display, setValue, filterLabel, filterValue, disabled, showLabel = true, defaultValue = undefined}) => {
+  const [ current, setCurrent ] = useState('');
 
   const fn = (e) =>
   {
+    setCurrent(e.target.value);
+    
     if (name == 'time')
     {
       setValue({id: e.target.value});
-
       return;
     }
 
@@ -44,12 +46,17 @@ const Dropdown = ({label, name, items, display, setValue, filterLabel, filterVal
     return item[display];
   }
 
+  useEffect(() =>
+  {
+    setCurrent(defaultValue);
+  }, [defaultValue])
+
   return (
     <div className="flex flex-col mt-2">
         {showLabel && <label htmlFor={name}>{label}</label>}
-        <select id={name} name={name} onChange={(e) => fn(e)} value={defaultValue} className="select select-bordered w-full" disabled={disabled}>
-          <option key={9999} value={''} disabled={! defaultValue} >Select {name}</option>
-            { ! disabled && items && filter(filterLabel, filterValue).map(item => <option key={item.id} value={item.id}>{displayName(item)}</option>)}
+        <select id={name} name={name} onChange={(e) => fn(e)} value={current} className="select select-bordered w-full" disabled={disabled}>
+          <option key={9999} value={''} disabled={current} >Select {name}</option>
+            {items && filter(filterLabel, filterValue).map(item => <option key={item.id} value={item.id}>{displayName(item)}</option>)}
         </select>
     </div>
   )

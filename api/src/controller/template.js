@@ -29,7 +29,7 @@ const createController = (service, SUCCESS_MESSAGE, ERROR_MESSAGE) => {
 
     FIND: async (req, res) => {
       try {
-        const data = await service.FIND(req.params);
+        const data = await service.FIND(req.params, req.query);
         return res.json({ ...SUCCESS_MESSAGE.FETCH_SUCCESS, data });
       } catch (error) {
         res.status(400).json({ error: error.message || ERROR_MESSAGE.GENERIC_ERROR });

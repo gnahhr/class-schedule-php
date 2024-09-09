@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Logo from '../assets/logo.jpg'
 
-const Nav = ({navigate, isLoggedIn}) => {
+const Nav = ({navigate, isLoggedIn, logout}) => {
   const [ name, setName ] = useState(null)
   
   const navi = (route) => {
@@ -23,9 +23,10 @@ const Nav = ({navigate, isLoggedIn}) => {
     <nav className="bg-blue-700 flex justify-between text-white h-[10vh] max-h-[10vh]">
         <img src={Logo} alt="logo" className="w-12 h-12 rounded-full my-auto ml-20"/>
         {isLoggedIn ?
-        <>
-          <p className="text-bold my-auto mr-6" >Hello, {name}</p>
-        </>
+        <div className="my-auto mr-6">
+          <p className="text-bold">Hello, {name}</p>
+          <p className="underline hover:cursor-pointer" onClick={() => logout()}>Logout</p>
+        </div>
         :
         <>
           <ul className="flex items-center gap-2">

@@ -109,13 +109,6 @@ const createService = (MODEL, ERROR_MESSAGE, uniqueFields = [], include = [], ty
 
     FIND: async (reqParams) => {
       try {
-
-        if (type === 'Schedule' && reqQuery) {
-          const data = scheduleQuery(Year, MODEL, reqQuery, include)
-
-          return data
-        }
-
         const { id } = reqParams;
 
         const data = await MODEL.findByPk(id, {

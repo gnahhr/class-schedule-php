@@ -151,7 +151,7 @@ const Schedules = () => {
         setAlertType('success');
         setShowAlert(true);
 
-        setTimeout(() =>{ reset(); setIsLoading(false); }, [1500])
+        setTimeout(() =>{ reset(); setIsLoading(false); fetchCompleteSchedule();}, [1500])
     })
     .catch((res) =>
     {
@@ -185,12 +185,8 @@ const Schedules = () => {
     }
 
     setTeacher(response.teacher_id);
+    setSubject(response.subject_id);
     setRoom(response.room);
-
-    console.log(response);
-
-    setSchedule(response);
-    setActive(response);
   }
 
   const parseTime = ({id, days, start, end}) =>
@@ -269,7 +265,7 @@ const Schedules = () => {
         setAlertType('success');
         setShowAlert(true);
 
-        setTimeout(() =>{ reset(); setIsLoading(false); }, [1500])
+        setTimeout(() =>{ reset(); setIsLoading(false); fetchCompleteSchedule();}, [1500])
     })
     .catch((res) =>
     {
@@ -280,9 +276,13 @@ const Schedules = () => {
     });
   }
 
-  const openModal = async (type, id = null) => 
-    {
+  const openModal = async (type, id = null, days = null, start = null, end = null) => 
+  {
     if(id) await fetch(id);
+
+    if (days) setDays(days);
+
+    if (start && end) parseTime({days, start, end});
 
     setModalType(type);
 
@@ -320,12 +320,18 @@ const Schedules = () => {
 
   const reset = () =>
   {
+    setSubject('');
+    setTeacher('');
+    setTimeStart('');
+    setTimeEnd('');
+    setTime('');
+    setTeacher('');
+    setRoom('');
+    setDays('');
     setAlertMsg('');
     setActive({});
     setShowAlert(false);
     closeModal();
-
-    // getAll();
   }
 
   const filter = ()  =>
@@ -395,29 +401,11 @@ const Schedules = () => {
     setTeachers(response)
   }
 
-  useEffect(() =>
-  {
-    filter()
-  }, [search])
-
   return (
     <>
         <div>
             <div className="flex justify-between">
-                <button className="btn bg-blue-500 hover:bg-blue-700 text-white" onClick={() => openModal(0)}>Add Schedule</button>
-                <label className="input input-bordered flex items-center gap-2">
-                <input type="text" className="grow" name="search" id="search" placeholder="Search" onChange={(e) => setInput(e)}/>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        className="h-4 w-4 opacity-70">
-                        <path
-                        fillRule="evenodd"
-                        d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                        clipRule="evenodd" />
-                    </svg>
-                </label>
+                {year && department && course && section && <button className="btn bg-blue-500 hover:bg-blue-700 text-white" onClick={() => openModal(3)}>Add Custom Schedule</button>}
             </div>
 
             <div className="my-5">
@@ -435,11 +423,11 @@ const Schedules = () => {
               {schedule.length == 0 ? 
                 <h2 className="text-center">No schedules found.</h2>
                 :
-                ['mwf', 'tth', 'custom'].map(item => 
+                ['mwf', 'tth', 'custom'].map((item, index) => 
                 {
                   if (Object.keys(schedule[item]).length > 0)
                   {
-                    return <Schedule key={item} items={schedule[item]} openModal={openModal}></Schedule>
+                    return <Schedule key={item} day={index} items={schedule[item]} openModal={openModal}></Schedule>
                   }
                 }
                 )
@@ -454,7 +442,7 @@ const Schedules = () => {
                   <p className="py-4">Delete the schedule [{active.name}]?</p>
                 :
                   <div className="py-4">
-                      <Dropdown label={'Days'} name={'days'} items={daysList} display={'name'} setValue={setDays} showLabel={true} defaultValue={days}></Dropdown>
+                      <Dropdown label={'Days'} name={'days'} items={modalType == 3 ? daysList.slice(2) : daysList} display={'name'} setValue={setDays} showLabel={true} defaultValue={days} disabled={days < 3 && days != ''}></Dropdown>
                       {days < 3 ?
                         <Dropdown label={'Time'} name={'time'} items={times[days]} display={'name'} setValue={setTime} showLabel={true} defaultValue={time} disabled={! days}></Dropdown>
                         :
@@ -483,7 +471,7 @@ const Schedules = () => {
                 }
                 <Alert show={showAlert} type={alertType} message={alertMsg}></Alert>
                 <div className="modal-action">
-                        {modalType === 0 && <button className="btn bg-green-500 hover:bg-green-700 text-white" onClick={() => add()} disabled={isLoading}><span>Add</span></button>}
+                        {(modalType === 0 || modalType === 3) && <button className="btn bg-green-500 hover:bg-green-700 text-white" onClick={() => add()} disabled={isLoading}><span>Add</span></button>}
                         {modalType === 1 && <button className="btn bg-green-500 hover:bg-green-700 text-white" onClick={() => update()} disabled={isLoading}><span>Update</span></button>}
                         {modalType === 2 && <button className="btn bg-green-500 hover:bg-green-700 text-white" onClick={() => del()} disabled={isLoading}><span>Delete</span></button>}
                         <button className="btn bg-red-500 hover:bg-red-700 text-white" disabled={isLoading} onClick={() => reset()}>Cancel</button>

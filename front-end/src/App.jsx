@@ -25,14 +25,19 @@ function App() {
   const [ sideActive, setSideActive ] = useState('dashboard');
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ error, setError ] = useState(null);
+  const [ isLoading, setIsLoading ] = useState(false);
 
   const login = async (payload) =>
   {
+    setIsLoading(true);
+
     const response = await User.login(payload)
 
     if (response.statusCode != 200)
     {
       setError(response.message)
+
+      setIsLoading(false);
 
       return
     }
@@ -42,6 +47,13 @@ function App() {
     setIsLoggedIn(true);
 
     localStorage.setItem('user', JSON.stringify(response.response));
+  }
+
+  const logout = () =>
+  {
+    localStorage.removeItem('user');
+
+    window.location.reload();
   }
 
   useEffect( () => 
@@ -69,7 +81,7 @@ function App() {
 
   return (
     <div className='min-h-screen flex flex-col'>
-      <Nav navigate={setActive} isLoggedIn={isLoggedIn}></Nav>
+      <Nav navigate={setActive} isLoggedIn={isLoggedIn} logout={logout}></Nav>
       {isLoggedIn ?
       <div className='block md:flex'>
         <SideNav links={sideNavLinks} navigate={setSideActive}></SideNav>
@@ -82,7 +94,7 @@ function App() {
         <div className="sm:h-[72vh] sm:max-h-[72vh]">
           { active == 'home' && <Hero></Hero> }
           { active == 'student' && <Student></Student> }
-          { active == 'login' && <Login fn={login} error={error}></Login> }
+          { active == 'login' && <Login fn={login} error={error} isLoading={isLoading}></Login> }
         </div>
         <Footer></Footer>
       </>
