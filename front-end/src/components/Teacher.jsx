@@ -65,6 +65,8 @@ const Teacher = () => {
         roleId: 0
     }
 
+    console.log(payload)
+
     setIsLoading(true)
 
     await User.register(payload)
@@ -299,7 +301,7 @@ const Teacher = () => {
                                 <path
                                 d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                             </svg>
-                            <input type="text" className="grow" name="name" id="name"  placeholder="Username" value={name} onChange={(e) => setInput(e)} disabled={isLoading} required/>
+                            <input type="text" className="grow" name="name" id="name"  placeholder="Name" value={name} onChange={(e) => setInput(e)} disabled={isLoading} required/>
                         </label>
                         
                         <label className="input flex items-center gap-2 my-1">

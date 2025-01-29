@@ -15,6 +15,7 @@ import Subject from "./components/Subject";
 import Year from "./components/Year";
 import Section from "./components/Section";
 import Schedules from "./components/Schedules";
+import TeacherSchedule from "./components/TeacherSchedule";
 
 import User from "./utils/user"
 
@@ -76,7 +77,7 @@ function App() {
     'subject': <Subject></Subject>,
     'year': <Year></Year>,
     'section': <Section></Section>,
-    'schedule': <Schedules></Schedules>
+    'schedule': <Schedules></Schedules>,
   }
 
   return (
