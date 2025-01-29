@@ -66,7 +66,32 @@ const LOGIN = async (reqBody) => {
     try {
         const {userName, password } = reqBody
 
-        const findUser = await USER.findOne({where:{userName: userName}} )
+        // const findUser = await USER.findOne({where:{userName: userName}} )
+
+        const user = await USER.findOne({ where: { userName: userName } });
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const roleId = user.roleId
+
+        const includeArray = [];
+
+        if (roleId == 1) {
+            includeArray.push({
+                model: ADMIN,  
+            });
+        } else if (roleId == 0) {
+            includeArray.push({
+                model: TEACHER,
+            });
+        }
+
+        const findUser = await USER.findOne({
+            where: { userName: userName },
+            include: includeArray
+        });
 
         if(! findUser) throw (ERROR_MESSAGE.DO_NOT_EXIST)
 
@@ -74,12 +99,13 @@ const LOGIN = async (reqBody) => {
 
         if (!comparePassword) throw(ERROR_MESSAGE.USER_ERROR_INVALID_PASSWORD)
 
-        const user = {
+        const userData = {
           userName: findUser.userName,
-          roleId: findUser.roleId
+          roleId: findUser.roleId,
+          teacherId: roleId == 0 ? findUser.teacher.id : null,
         }
 
-        return user
+        return userData
     } catch (error) {
         
         throw error

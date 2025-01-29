@@ -15,15 +15,19 @@ import Subject from "./components/Subject";
 import Year from "./components/Year";
 import Section from "./components/Section";
 import Schedules from "./components/Schedules";
-import TeacherSchedule from "./components/TeacherSchedule";
 
 import User from "./utils/user"
+import SelectTeacher from "./components/SelectTeacher";
 
 const sideNavLinks = ['Dashboard', 'Admin', 'Teacher', 'Schedule', 'Subject', 'Department', 'Course', 'Section', 'Year'];
 
 function App() {
+  const TYPE_TEACHER = 0;
+  const TYPE_ADMIN = 1;
+
   const [ active, setActive ] = useState('home');
   const [ sideActive, setSideActive ] = useState('dashboard');
+  const [ isTeacher, setIsTeacher ] = useState(TYPE_ADMIN);
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ error, setError ] = useState(null);
   const [ isLoading, setIsLoading ] = useState(false);
@@ -46,6 +50,11 @@ function App() {
     setError(null);
 
     setIsLoggedIn(true);
+
+    if(response.response.roleId == TYPE_TEACHER)
+    {
+      setIsTeacher(TYPE_TEACHER);
+    }
 
     localStorage.setItem('user', JSON.stringify(response.response));
   }
@@ -81,27 +90,32 @@ function App() {
   }
 
   return (
-    <div className='min-h-screen flex flex-col'>
-      <Nav navigate={setActive} isLoggedIn={isLoggedIn} logout={logout}></Nav>
-      {isLoggedIn ?
-      <div className='block md:flex'>
-        <SideNav links={sideNavLinks} navigate={setSideActive}></SideNav>
-        <div className="p-5 md:flex-grow">  
-          { pages[sideActive] }
-        </div>
-      </div>
-      :
-      <>
-        <div className="sm:h-[72vh] sm:max-h-[72vh]">
-          { active == 'home' && <Hero></Hero> }
-          { active == 'student' && <Student></Student> }
-          { active == 'login' && <Login fn={login} error={error} isLoading={isLoading}></Login> }
-        </div>
-        <Footer></Footer>
-      </>
-      }
+    <div className="min-h-screen flex flex-col">
+      <Nav navigate={setActive} isLoggedIn={isLoggedIn} logout={logout} />
+  
+      {isLoggedIn ? (
+        isTeacher !== TYPE_TEACHER ? (
+          <div className="block md:flex">
+            <SideNav links={sideNavLinks} navigate={setSideActive} />
+            <div className="p-5 md:flex-grow">
+              {pages[sideActive]}
+            </div>
+          </div>
+        ) : (
+          <SelectTeacher />
+        )
+      ) : (
+        <>
+          <div className="sm:h-[72vh] sm:max-h-[72vh]">
+            {active === "home" && <Hero />}
+            {active === "student" && <Student />}
+            {active === "login" && <Login fn={login} error={error} isLoading={isLoading} />}
+          </div>
+          <Footer />
+        </>
+      )}
     </div>
-  )
+  );
 }
 
 export default App

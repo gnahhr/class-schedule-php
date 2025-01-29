@@ -1,7 +1,7 @@
 
 module.exports = exist = async (Year, MODEL, reqQuery, include) => {
 
-  let {course, section, year, toggle} = reqQuery;
+  let {course, section, year, toggle, teacherId} = reqQuery;
 
   let models = include
   
@@ -15,6 +15,18 @@ module.exports = exist = async (Year, MODEL, reqQuery, include) => {
     ...include,
   ]
   }
+
+  if(teacherId)
+  {
+    const data = await MODEL.findAll({
+      where: {
+        teacher_id: teacherId,
+      },
+      include: models
+    });
+
+    return data
+  }
   
   const data = await MODEL.findAll({
     where: {
@@ -24,6 +36,8 @@ module.exports = exist = async (Year, MODEL, reqQuery, include) => {
     },
     include: models
   });
+
+
 
   return data
 }

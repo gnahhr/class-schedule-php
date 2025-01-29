@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import Dropdown from './Dropdown'
-import Schedule from './Schedule'
+import TeacherSchedule from './TeacherSchedule'
 
 import Restful from '../utils/restful'
 
@@ -9,26 +9,20 @@ const route = 'schedule'
 
 const SelectTeacher = () => {
   // Search/View Queries
-  const [ course, setCourse ] = useState('');
-  const [ section, setSection ] = useState('');
-  const [ department, setDepartment ] = useState('');
   const [ year, setYear] = useState('');
 
-  // Dropdowns
   // Search/View Queries
-  const [ courses, setCourses ] = useState([]);
-  const [ sections, setSections ] = useState([]);
-  const [ departments, setDepartments ] = useState([]);
   const [ years, setYears] = useState([]);
 
   const [ schedule, setSchedule ] = useState([]);
+
+  const user = JSON.parse(localStorage.getItem('user'))
 
   const fetchCompleteSchedule = async () =>
   {
     const payload =
     {
-      course,
-      section,
+      teacherId:user.teacherId,
       year,
       toggle: 0
     }
@@ -40,29 +34,8 @@ const SelectTeacher = () => {
   useEffect(() =>
   {
     // getAll()
-    getCourses()
-    getSections()
-    getDepartments()
     getYears()
   }, [])
-
-  const getCourses = async () => {
-    const response = await Restful.get('course');
-
-    setCourses(response)
-  }
-
-  const getSections = async () => {
-    const response = await Restful.get('section');
-
-    setSections(response)
-  }
-
-  const getDepartments = async () => {
-    const response = await Restful.get('department');
-
-    setDepartments(response)
-  }
 
   const getYears = async () => {
     const response = await Restful.get('year');
@@ -74,10 +47,7 @@ const SelectTeacher = () => {
     <div className="flex h-[80vh] max-h-[80vh]">
         <div className="w-[15%] p-4 border-r-2">
             <Dropdown label={'Year'} name={'year'} items={years} display={'sy'} setValue={setYear} showLabel={true} defaultValue={year}></Dropdown>
-            <Dropdown label={'Department'} name={'department'} items={departments} display={'name'} setValue={setDepartment} showLabel={true} defaultValue={department}></Dropdown>
-            <Dropdown label={'Course'} name={'course'} items={courses} display={'name'} setValue={setCourse} showLabel={true} defaultValue={course} filterLabel={'department_id'} filterValue={department} disabled={! department}></Dropdown>
-            <Dropdown label={'Section'} name={'section'} items={sections} display={'name'} setValue={setSection} showLabel={true} defaultValue={section} filterLabel={'course_id'} filterValue={course} disabled={! course}></Dropdown>
-            <button className="btn bg-blue-500 hover:bg-blue-700 text-white w-[100%] my-2" onClick={() => fetchCompleteSchedule()} disabled={! year && ! course && ! department && ! section}><span className='my-auto'>Get Schedule</span></button>
+            <button className="btn bg-blue-500 hover:bg-blue-700 text-white w-[100%] my-2" onClick={() => fetchCompleteSchedule()} disabled={! year}><span className='my-auto'>Get Schedule</span></button>
         </div>
         <div className="w-[85%] max-h-[69vh] overflow-y-auto">
             <h1 className="text-center flex gap-10 mt-4 mx-5 border-2 rounded text-4xl font-bold justify-center">
@@ -97,7 +67,7 @@ const SelectTeacher = () => {
                 {
                   if (Object.keys(schedule[item]).length > 0)
                   {
-                    return <Schedule key={item} day={index} items={schedule[item]}></Schedule>
+                    return <TeacherSchedule key={item} day={index} items={schedule[item]}></TeacherSchedule>
                   }
                 }
                 )

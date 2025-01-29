@@ -7,6 +7,7 @@ const DAYS =
 }
 
 const TeacherSchedule = ({day, items, openModal}) => {
+
   const [ keys, setKeys ] = useState(Object.keys(items));
 
   const getTime = (key) =>
