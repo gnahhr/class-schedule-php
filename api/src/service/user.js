@@ -46,9 +46,11 @@ const REGISTER = async (reqBody) => {
 
             const payload = {
                 name: name,
-                departmentId: departmentId,
+                department_id: departmentId,
                 user_id:user.id
             }
+
+            console.log(payload)
 
            await TEACHER.create(payload)
         }
@@ -90,6 +92,11 @@ const UPDATE_USER = async (reqBody, reqParams) => {
         const { id } = reqParams;
 
         const find = await USER.findByPk(id);
+
+        if(reqBody.password){
+            const hashPassword = bcrypt.hashSync(password,saltRounds)
+            reqBody.password = hashPassword
+        }
 
         if (! find) throw(ERROR_MESSAGE.DO_NOT_EXIST);
 
