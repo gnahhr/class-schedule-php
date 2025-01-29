@@ -68,11 +68,20 @@ function App() {
 
   useEffect( () => 
   {
-    let user = localStorage.getItem('user')
+    let user = JSON.parse(localStorage.getItem('user'))
 
     if (user)
     {
-      setIsLoggedIn(true)
+      
+      if(user.roleId == TYPE_TEACHER){
+        setIsTeacher(TYPE_TEACHER);
+        setIsLoggedIn(true)
+      }
+
+      if(user.roleId != TYPE_TEACHER){
+        setIsLoggedIn(true)
+      }
+      
     }
 
   }, [])
