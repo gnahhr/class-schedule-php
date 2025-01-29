@@ -1,6 +1,6 @@
 const { Sequelize } = require("sequelize");
 
-const sequelize = new Sequelize("scheduler.db", "root", "", {
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.USER, process.env.PASSWORD, {
   logging: false,
   host: "localhost",
   dialect: "mysql",
